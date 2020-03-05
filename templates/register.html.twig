@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 
@@ -10,7 +10,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
                         <a href="/"><i class="fa fa-home"></i> Accueil</a>
-                        <span>Connexion</span>
+                        <span>Inscription</span>
                     </div>
                 </div>
             </div>
@@ -22,11 +22,27 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Connectez-vous</h2>
+                        <h2>Crée un compte</h2>
                         <form action="" method="POST">
                             <div class="group-input">
-                                <label for="username">Nom d'utilisateur ou adresse email *</label>
-                                <input name="username" type="text" id="username">
+                                <label for="lastname">Nom *</label>
+                                <input name="lastname" type="text" id="lastname">
+                            </div>
+                            <div class="group-input">
+                                <label for="firstname">Prénom *</label>
+                                <input name="firstname" type="text" id="firstname">
+                            </div>
+                            <div class="group-input">
+                                <label for="email">Adresse email *</label>
+                                <input name="email" type="text" id="email">
+                            </div>
+                            <div class="group-input">
+                                <label for="password">Mot de passe *</label>
+                                <input name="password" type="text" id="password">
+                            </div>
+                            <div class="group-input">
+                                <label for="password2">Re-taper le Mot de passe *</label>
+                                <input name="password2" type="text" id="password2">
                             </div>
                             <div class="group-input">
                                 <label for="pass">Mot de passe *</label>
