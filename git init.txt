@@ -1,0 +1,9 @@
+git init
+git remote add origin https://github.com/Arizona-dev/momoprix.git
+git add -A 
+git commit -m "init depot"
+git push -u origin master
+
+
+git checkout <branch>
+git checkout -B <NewBrranch>
