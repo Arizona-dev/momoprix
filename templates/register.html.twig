@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Crée un compte</h2>
+                        <h2>Créer un compte</h2>
                         <form action="" method="POST">
                             <div class="group-input">
                                 <label for="lastname">Nom *</label>
@@ -38,67 +38,24 @@
                             </div>
                             <div class="group-input">
                                 <label for="password">Mot de passe *</label>
-                                <input name="password" type="text" id="password">
+                                <input name="password" type="password" id="password">
                             </div>
                             <div class="group-input">
                                 <label for="password2">Re-taper le Mot de passe *</label>
-                                <input name="password2" type="text" id="password2">
+                                <input name="password2" type="password" id="password2">
                             </div>
                             <div class="group-input">
-                                <label for="pass">Mot de passe *</label>
-                                <input name="password" type="text" id="pass">
+                                <label for="pass">Date de naissance *</label>
+                                <input name="birthdate" type="date" id="birthdate">
                             </div>
-                            <div class="group-input gi-check">
-                                <div class="gi-more">
-                                    <label for="save-pass">
-                                        Sauvegarder le mot de passe
-                                        <input type="checkbox" id="save-pass">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <a href="#" class="forget-pass">Mot de passe oublié</a>
-                                </div>
-                            </div>
-                            <button type="submit" class="site-btn login-btn">Se connecter</button>
+                            <button type="submit" class="site-btn login-btn">S'inscrire</button>
                         </form>
                         <div class="switch-login">
-                            <a href="/register" class="or-login">Ou créez un compte</a>
+                            <a href="/login" class="or-login">Ou se connecter</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="partner-logo">
-        <div class="container">
-            <div class="logo-carousel owl-carousel">
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-1.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-2.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-3.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-4.png" alt="">
-                    </div>
-                </div>
-                <div class="logo-item">
-                    <div class="tablecell-inner">
-                        <img src="img/logo-carousel/logo-5.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 {% endblock %}
