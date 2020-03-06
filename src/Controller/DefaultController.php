@@ -16,13 +16,7 @@ class DefaultController extends AbstractController
         return $this->render('/index.html.twig');
     }
 
-    /**
-     * @Route("/login", name="login")
-     */
-    public function login()
-    {
-        return $this->render('/login.html.twig');
-    }
+    
 
     // Product controller
     /**

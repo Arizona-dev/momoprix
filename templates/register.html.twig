@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 
@@ -10,7 +10,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
                         <a href="/"><i class="fa fa-home"></i> Accueil</a>
-                        <span>Connexion</span>
+                        <span>Inscription</span>
                     </div>
                 </div>
             </div>
@@ -22,8 +22,16 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
-                        <h2>Connectez-vous</h2>
+                        <h2>Créer un compte</h2>
                         <form action="" method="POST">
+                            <div class="group-input">
+                                <label for="lastname">Nom *</label>
+                                <input name="lastname" type="text" id="lastname">
+                            </div>
+                            <div class="group-input">
+                                <label for="firstname">Prénom *</label>
+                                <input name="firstname" type="text" id="firstname">
+                            </div>
                             <div class="group-input">
                                 <label for="email">Adresse email *</label>
                                 <input name="email" type="text" id="email">
@@ -32,20 +40,18 @@
                                 <label for="password">Mot de passe *</label>
                                 <input name="password" type="password" id="password">
                             </div>
-                            <div class="group-input gi-check">
-                                <div class="gi-more">
-                                    <label for="save-pass">
-                                        Sauvegarder le mot de passe
-                                        <input type="checkbox" id="save-pass">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <a href="#" class="forget-pass">Mot de passe oublié</a>
-                                </div>
+                            <div class="group-input">
+                                <label for="password2">Re-taper le Mot de passe *</label>
+                                <input name="password2" type="password" id="password2">
                             </div>
-                            <button type="submit" class="site-btn login-btn">Se connecter</button>
+                            <div class="group-input">
+                                <label for="pass">Date de naissance *</label>
+                                <input name="birthdate" type="date" id="birthdate">
+                            </div>
+                            <button type="submit" class="site-btn login-btn">S'inscrire</button>
                         </form>
                         <div class="switch-login">
-                            <a href="/register" class="or-login">Ou créez un compte</a>
+                            <a href="/login" class="or-login">Ou se connecter</a>
                         </div>
                     </div>
                 </div>
