@@ -16,23 +16,4 @@ class DefaultController extends AbstractController
         return $this->render('/index.html.twig');
     }
 
-    
-
-    // Product controller
-    /**
-     * @Route("/getproduct", name="productDetail")
-     */
-    public function listProducts(int $id){
-        $products = $this->getDoctrine()
-        ->getRepository(Product::class)
-        ->findAll([], null, 50);
-
-        shuffle($product);
-        $products = array_slice($products, 0, 25);
-
-        $response = new Response();
-        $response->setContent(json_encode($products));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
 }
