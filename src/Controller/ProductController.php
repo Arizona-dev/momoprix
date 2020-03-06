@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +20,12 @@ class ProductController extends AbstractController
         $product = new Product();
         $product->setName('Keyboard');
         $product->setPrice(1999);
+        $product->setBarCode(1999);
+        $product->setStock(1999);
+        $product->setCategoryIdcategory(1999);
         $product->setDescription('Ergonomic and stylish!');
+        $product->setImageUrl(1999);
+
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($product);
