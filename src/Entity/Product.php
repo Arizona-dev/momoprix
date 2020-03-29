@@ -73,6 +73,11 @@ class Product
      */
     private $wishlist;
 
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     */
+    private $price_weight;
+
     public function __construct()
     {
         $this->product_has_order = new ArrayCollection();
@@ -240,6 +245,18 @@ class Product
         if ($this->wishlist->contains($wishlist)) {
             $this->wishlist->removeElement($wishlist);
         }
+
+        return $this;
+    }
+
+    public function getPriceWeight(): ?string
+    {
+        return $this->price_weight;
+    }
+
+    public function setPriceWeight(?string $price_weight): self
+    {
+        $this->price_weight = $price_weight;
 
         return $this;
     }
