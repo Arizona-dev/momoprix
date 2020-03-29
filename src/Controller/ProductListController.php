@@ -15,9 +15,8 @@ class ProductListController extends AbstractController
     {
         $loader = new \Twig\Loader\FilesystemLoader('../templates');
         $twig = new \Twig\Environment($loader);
-
         $connect = new PDO("mysql:host=localhost;dbname=momoprixdb", "root", "");
-        
+
         $query = "SELECT * 
         FROM product
         LEFT JOIN category ON product.id = category.id
@@ -26,61 +25,31 @@ class ProductListController extends AbstractController
         $statement->execute();
         $result = $statement->fetchAll();
         $total_row = $statement->rowCount();
-        $output = '';
+        $products = [];
         if($total_row > 0)
         {
             foreach($result as $row)
             {
-                $output .= '<div class="col-lg-4 col-sm-6">
-                <div class="product-item">
-                    <div class="pi-pic">
-                        <img src="'. $row['image_url'] .'" alt="">
-                        <div class="sale pp-sale">Sale</div>
-                        <div class="icon">
-                            <i class="icon_heart_alt"></i>
-                        </div>
-                        <ul>
-                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                            <li class="quick-view"><a href="#">Voir</a></li>
-                        </ul>
-                    </div>
-                    <div class="pi-text">
-                        <div class="catagory-name">'. $row['category_name'] .'</div>
-                        <a href="#">
-                            <h5>'. $row['product_name'] .'</h5>
-                        </a>
-                        <div class="product-price">
-                        '. $row['price'] .'
-                        </div>
-                    </div>
-                </div>
-            </div>';
-
-                $product_name = $row['product_name'];
-                $category_name = $row['category_name'];
-                $product_image = $row['image_url'];
-                $product_price = $row['price'];
-                $product_desc = $row['description'];
-
+                array_push($products, 
+                    [
+                        'Category' => $row['category_name'],
+                        'Name' => $row['product_name'],
+                        'Price' => $row['price'],
+                        'Description' => $row['description'],
+                        'Image_url' => $row['image_url']
+                    ]
+                );
             }
+            //$productsList[] = json_encode($products);
+            //print_r($productsList);die;
         }
         else
         {
-            $output = '<h3>Aucun article trouvé</h3>';
+            $products = ['error' => 'Aucun produits trouvé'];
+            //$productsList = ['error' => 'Aucun produits trouvé'];
         }
 
-        //$twig->addGlobal('output', $output);
-        $array_global = array(
-            'category_name' => $category_name,
-            'product_name' => $product_name,
-            'product_image' => $product_image,
-            'product_price' => $product_price,
-            'product_desc' => $product_desc,
-            'products' => $result,
-            'product' => $row,
-        );
-
-        return $this->render('/shop.html.twig', $array_global);
+        return $this->render('/shop.html.twig', array('products'=>$products, ));
         
         
 

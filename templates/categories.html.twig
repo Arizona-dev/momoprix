@@ -78,10 +78,10 @@
                     {% for product in products %}
                         <div class="col-sm-4 col-lg-3 col-md-3">
                             <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
-                                <img src="{{product_image}}" alt="" class="img-responsive" >
-                                <p align="center"><strong><a href="#">{{ product_name }}</a></strong></p>
-                                <h4 style="text-align:center;" class="text-danger" >{{ product_price }}</h4>
-                                <p>Description : {{product_desc}}</p>
+                                <img src="{{ product.Image_url }}" alt="" class="img-responsive" >
+                                <p align="center"><strong><a href="#">{{ product.Name }}</a></strong></p>
+                                <h4 style="text-align:center;" class="text-danger" >{{ product.Price }}</h4>
+                                <p>Description : {{product.Description}}</p>
                             </div>
                         </div>
                     {% endfor %}

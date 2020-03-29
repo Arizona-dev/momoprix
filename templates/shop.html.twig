@@ -24,12 +24,42 @@
                     <div class="filter-widget">
                         <h4 class="fw-title">Rayons</h4>
                         <ul class="filter-catagories">
-                            {% for product in products %}
-                                <li><a href="#">{{ category_name }}</a></li>
-                            {% endfor %}
+                            
+                                <li id="category_list"><a href="#"></a></li>
+                            
                         </ul>
                     </div>
-                    
+
+
+
+
+                    <script>
+                        function() {
+                        var xmlhttp = new XMLHttpRequest();
+                        xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                            myFunction(this);
+                            }
+                        };
+                        xmlhttp.open("GET", $products, true);
+                        xmlhttp.send();
+                        }
+                        function myFunction(xml) {
+                        var i;
+                        var xmlDoc = xml.responseXML;
+                        var table="<li><a href="#">Aucune catégorie trouvé</a></li>";
+                        var x = xmlDoc.getElementsByTagName("category_list");
+                        for (i = 0; i <x.length; i++) { 
+                            table += "<li><a href="#">" +
+                            x[i].getElementsByTagName("Category")[0].childNodes[0].nodeValue +
+                            "</a></li>";
+                        }
+                        document.getElementById("category_list").innerHTML = table;
+                        }
+                    </script>
+
+
+
                     <div class="filter-widget">
                         <h4 class="fw-title">Prix</h4>
                         <div class="filter-range-wrap">
@@ -69,32 +99,31 @@
                     </div>
                     <div class="product-list">
                         <div class="row">
+                        {% for product in products %}
                             <div class="col-lg-4 col-sm-6">
                                 <div class="product-item">
                                     <div class="pi-pic">
-                                        <img src="img/products/product-1.jpg" alt="">
-                                        <div class="sale pp-sale">Sale</div>
+                                        <img src="{{ product.Image_url }}" alt="">
                                         <div class="icon">
                                             <i class="icon_heart_alt"></i>
                                         </div>
                                         <ul>
                                             <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                            <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                            <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                            <li class="quick-view"><a href="#">+ Voir</a></li>
                                         </ul>
                                     </div>
                                     <div class="pi-text">
-                                        <div class="catagory-name">Towel</div>
+                                        <div class="catagory-name">{{ product.Category }}</div>
                                         <a href="#">
-                                            <h5>Pure Pineapple</h5>
+                                            <h5>{{ product.Name }}</h5>
                                         </a>
                                         <div class="product-price">
-                                            $14.00
-                                            <span>$35.00</span>
+                                            {{ product.Price }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        {% endfor %}
                             <div class="col-lg-4 col-sm-6">
                                 <div class="product-item">
                                     <div class="pi-pic">
@@ -308,6 +337,5 @@
             </div>
         </div>
     </section>
-    <!-- Product Shop Section End -->
 
 {% endblock %}
