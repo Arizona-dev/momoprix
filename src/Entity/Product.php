@@ -21,7 +21,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $name;
+    private $product_name;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -89,14 +89,14 @@ class Product
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getProduct_name(): ?string
     {
-        return $this->name;
+        return $this->product_name;
     }
 
-    public function setName(string $name): self
+    public function setProduct_name(string $product_name): self
     {
-        $this->name = $name;
+        $this->product_name = $product_name;
 
         return $this;
     }
