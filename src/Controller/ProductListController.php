@@ -19,7 +19,7 @@ class ProductListController extends AbstractController
 
         $query = "SELECT * 
         FROM product
-        LEFT JOIN category ON product.id = category.id
+        LEFT JOIN category ON product.category_idcategory = category.id
         WHERE stock > '0'";
         $statement = $connect->prepare($query);
         $statement->execute();
@@ -36,12 +36,13 @@ class ProductListController extends AbstractController
                         'Name' => $row['product_name'],
                         'Price' => $row['price'],
                         'Description' => $row['description'],
-                        'Image_url' => $row['image_url']
+                        'Image' => $row['image_url']
                     ]
                 );
             }
-            //$productsList[] = json_encode($products);
-            //print_r($productsList);die;
+            //$products[] = json_encode($products);
+            //print_r($products);die;
+            shuffle($products);
         }
         else
         {
@@ -49,7 +50,7 @@ class ProductListController extends AbstractController
             //$productsList = ['error' => 'Aucun produits trouvé'];
         }
 
-        return $this->render('/shop.html.twig', array('products'=>$products, ));
+        return $this->render('/shop.html.twig', array('products'=>$products));
         
         
 
