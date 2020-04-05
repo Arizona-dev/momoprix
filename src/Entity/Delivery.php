@@ -27,26 +27,19 @@ class Delivery
     private $schedule;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $delivery;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $date_delivery;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\address", inversedBy="deliveries")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Order", cascade={"persist", "remove"})
      */
-    private $address_idaddress;
+    private $Order;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\order", inversedBy="delivery", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
      */
-    private $order_idorder;
+    private $address;
 
     public function getId(): ?int
     {
@@ -77,18 +70,6 @@ class Delivery
         return $this;
     }
 
-    public function getDelivery(): ?\DateTimeInterface
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(\DateTimeInterface $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
-
     public function getDateDelivery(): ?\DateTimeInterface
     {
         return $this->date_delivery;
@@ -101,26 +82,26 @@ class Delivery
         return $this;
     }
 
-    public function getAddressIdaddress(): ?address
+    public function getOrderId(): ?Order
     {
-        return $this->address_idaddress;
+        return $this->Order;
     }
 
-    public function setAddressIdaddress(?address $address_idaddress): self
+    public function setOrderId(?Order $Order): self
     {
-        $this->address_idaddress = $address_idaddress;
+        $this->Order = $Order;
 
         return $this;
     }
 
-    public function getOrderIdorder(): ?order
+    public function getAddressId(): ?Address
     {
-        return $this->order_idorder;
+        return $this->address;
     }
 
-    public function setOrderIdorder(order $order_idorder): self
+    public function setAddressId(?Address $address): self
     {
-        $this->order_idorder = $order_idorder;
+        $this->address = $address;
 
         return $this;
     }

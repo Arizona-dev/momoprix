@@ -9,7 +9,7 @@ class ProductListController extends AbstractController
 {
 
     /**
-     * @Route("/courses-en-ligne", name="viewRayon")
+     * @Route("/coursess-en-ligne", name="viewRayon")
      */
     public function viewRayon()
     {

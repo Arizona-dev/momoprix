@@ -10,39 +10,43 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
+use Faker\Factory;
 
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create('fr_FR');
         $categories = $this->generateSubCateg($manager);
 
         // create 50 products! Bam!
         for ($i = 0; $i < 50; $i++) {
             shuffle($categories);
             $product = new Product();
-            $product->setProduct_name('Produit '.$i);
-            $product->setPrice(mt_rand(1, 20));
-            $product->setBarCode(mt_rand(100000, 1000000));
-            $product->setDateOfEntry(new DateTime('2020-03-29'));
-            $product->setStock(100);
-            $product->setCategoryIdcategory($categories[$i]->getId());
-            $product->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vestibulum blandit ultricies. Nullam posuere posuere mi, ut auctor nulla. Fusce efficitur magna ac quam suscipit efficitur. Nunc magna nulla, accumsan eget fermentum eu, euismod vitae mauris. Nulla eget malesuada dolor.');
-            $product->setImageUrl("Product.png");
+            $product
+            ->setProductName($faker->words(2, true))
+            ->setPrice($faker->numberBetween(1, 30))
+            ->setBarCode($faker->numberBetween(9800000, 9899999))
+            ->setDateOfEntry($faker->dateTimeAD('now', 'Europe/Paris'))
+            ->setStock($faker->numberBetween(30, 200))
+            ->setCategory($categories[$i])
+            ->setDescription($faker->sentences(2, true))
+            ->setImageUrl("Product.png");
             $manager->persist($product);
         }
-
         $manager->flush();
     }
 
     function generateCateg(ObjectManager $manager){
         
+        $faker = Factory::create('fr_FR');
         $categ = [];
         for ($i = 0; $i < 50; $i++) {
             $category = new Category();
-            $category->setCategory_name('Catégorie '.$i);
-            $category->setImageUrl("Product.png");
+            $category
+            ->setCategoryName($faker->words($nb = 1, $asText = true))
+            ->setImageUrl("Product.png");
             $manager->persist($category);
             array_push($categ, $category);
         }
@@ -52,13 +56,14 @@ class AppFixtures extends Fixture
 
     function generateSubCateg(ObjectManager $manager){
         
+        $faker = Factory::create('fr_FR');
         $categories = $this->generateCateg($manager);
         for ($i = 0; $i < 25; $i++) {
             shuffle($categories);
             $category = new Category();
-            $category->setCategory_name('Sous-catégorie '.$i);
+            $category->setCategoryName($faker->words($nb = 1, $asText = true));
             $category->setImageUrl("Product.png");
-            $category->addCategory($categories[$i]);
+            $category->addCategoryHasCategory($categories[$i]);
             $manager->persist($category);
             array_push($categories, $category);
         }

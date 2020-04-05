@@ -34,6 +34,11 @@ class Product
     private $price;
 
     /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     */
+    private $price_weight;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $date_of_entry;
@@ -44,43 +49,33 @@ class Product
     private $stock;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $category_idcategory;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $image_url;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="products")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $product_has_order;
+    private $description;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $qte;
+    private $specifications;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Customer", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="qte")
      */
-    private $wishlist;
+    private $Product_has_Order;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
      */
-    private $price_weight;
+    private $Category;
 
     public function __construct()
     {
-        $this->product_has_order = new ArrayCollection();
+        $this->Product_has_Order = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
     }
 
@@ -89,12 +84,12 @@ class Product
         return $this->id;
     }
 
-    public function getProduct_name(): ?string
+    public function getProductName(): ?string
     {
         return $this->product_name;
     }
 
-    public function setProduct_name(string $product_name): self
+    public function setProductName(string $product_name): self
     {
         $this->product_name = $product_name;
 
@@ -125,6 +120,18 @@ class Product
         return $this;
     }
 
+    public function getPriceWeight(): ?string
+    {
+        return $this->price_weight;
+    }
+
+    public function setPriceWeight(?string $price_weight): self
+    {
+        $this->price_weight = $price_weight;
+
+        return $this;
+    }
+
     public function getDateOfEntry(): ?\DateTimeInterface
     {
         return $this->date_of_entry;
@@ -149,30 +156,6 @@ class Product
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCategoryIdcategory(): ?int
-    {
-        return $this->category_idcategory;
-    }
-
-    public function setCategoryIdcategory(int $category_idcategory): self
-    {
-        $this->category_idcategory = $category_idcategory;
-
-        return $this;
-    }
-
     public function getImageUrl(): ?string
     {
         return $this->image_url;
@@ -185,18 +168,42 @@ class Product
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSpecifications(): ?string
+    {
+        return $this->specifications;
+    }
+
+    public function setSpecifications(?string $specifications): self
+    {
+        $this->specifications = $specifications;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Order[]
      */
     public function getProductHasOrder(): Collection
     {
-        return $this->product_has_order;
+        return $this->Product_has_Order;
     }
 
     public function addProductHasOrder(Order $productHasOrder): self
     {
-        if (!$this->product_has_order->contains($productHasOrder)) {
-            $this->product_has_order[] = $productHasOrder;
+        if (!$this->Product_has_Order->contains($productHasOrder)) {
+            $this->Product_has_Order[] = $productHasOrder;
         }
 
         return $this;
@@ -204,59 +211,21 @@ class Product
 
     public function removeProductHasOrder(Order $productHasOrder): self
     {
-        if ($this->product_has_order->contains($productHasOrder)) {
-            $this->product_has_order->removeElement($productHasOrder);
+        if ($this->Product_has_Order->contains($productHasOrder)) {
+            $this->Product_has_Order->removeElement($productHasOrder);
         }
 
         return $this;
     }
 
-    public function getQte(): ?int
+    public function getCategory(): ?Category
     {
-        return $this->qte;
+        return $this->Category;
     }
 
-    public function setQte(?int $qte): self
+    public function setCategory(?Category $Category): self
     {
-        $this->qte = $qte;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Customer[]
-     */
-    public function getWishlist(): Collection
-    {
-        return $this->wishlist;
-    }
-
-    public function addWishlist(Customer $wishlist): self
-    {
-        if (!$this->wishlist->contains($wishlist)) {
-            $this->wishlist[] = $wishlist;
-        }
-
-        return $this;
-    }
-
-    public function removeWishlist(Customer $wishlist): self
-    {
-        if ($this->wishlist->contains($wishlist)) {
-            $this->wishlist->removeElement($wishlist);
-        }
-
-        return $this;
-    }
-
-    public function getPriceWeight(): ?string
-    {
-        return $this->price_weight;
-    }
-
-    public function setPriceWeight(?string $price_weight): self
-    {
-        $this->price_weight = $price_weight;
+        $this->Category = $Category;
 
         return $this;
     }

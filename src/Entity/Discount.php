@@ -14,7 +14,7 @@ class Discount
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $discount_id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
@@ -26,9 +26,9 @@ class Discount
      */
     private $percentage;
 
-    public function getDiscountId(): ?int
+    public function getId(): ?int
     {
-        return $this->discount_id;
+        return $this->id;
     }
 
     public function getDiscountCode(): ?string

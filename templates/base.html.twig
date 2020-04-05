@@ -132,16 +132,14 @@
                             <span>Tout les rayons</span>
                             <ul class="depart-hover">
                             {% block categories_list %}{% endblock %}
-                                {% for product in products|sort %}
-                                    <li><a href="#">{{ product.Category }}</a></li>
-                                {% endfor %}
+                                
                             </ul>
                         </div>
                     </div>
                     <nav class="nav-menu mobile-menu">
                         <ul>
-                            <li class="{% block menu_active_1 %}{% endblock %}"><a href="/">Accueil</a></li>
-                            <li class="{% block menu_active_2 %}{% endblock %}"><a href="/courses-en-ligne">Rayons</a></li>
+                            <li class="{% if current_menu is defined and current_menu == 'home' %}active{% endif %}"><a href="/">Accueil</a></li>
+                            <li class="{% if current_menu is defined and current_menu == 'products' %}active{% endif %}"><a href="/produits">Produits</a></li>
                         </ul>
                     </nav>
                     <div id="mobile-menu-wrap"></div>
