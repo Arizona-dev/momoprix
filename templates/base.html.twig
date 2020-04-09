@@ -10,15 +10,15 @@
 
         <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="css/themify-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/themify-icons.css" type="text/css">
+        <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+        <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+        <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
         
     </head>
 
@@ -82,7 +82,7 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="si-pic"><img src="img/select-product-1.jpg" alt=""></td>
+                                                        <td class="si-pic"><img src="/img/select-product-1.jpg" alt=""></td>
                                                         <td class="si-text">
                                                             <div class="product-selected">
                                                                 <p>60.00 € x 1</p>
@@ -94,7 +94,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="si-pic"><img src="img/select-product-2.jpg" alt=""></td>
+                                                        <td class="si-pic"><img src="/img/select-product-2.jpg" alt=""></td>
                                                         <td class="si-text">
                                                             <div class="product-selected">
                                                                 <p>60.00 € x 1</p>
@@ -139,7 +139,7 @@
                     <nav class="nav-menu mobile-menu">
                         <ul>
                             <li class="{% if current_menu is defined and current_menu == 'home' %}active{% endif %}"><a href="/">Accueil</a></li>
-                            <li class="{% if current_menu is defined and current_menu == 'products' %}active{% endif %}"><a href="/produits">Produits</a></li>
+                            <li class="{% if current_menu is defined and current_menu == 'shop' %}active{% endif %}"><a href="/courses-en-ligne">Produits</a></li>
                         </ul>
                     </nav>
                     <div id="mobile-menu-wrap"></div>
@@ -155,7 +155,7 @@
                     <div class="col-lg-3">
                         <div class="footer-left">
                             <div class="footer-logo">
-                                <a href="#"><img src="img/logo.png" alt=""></a>
+                                <a href="#"><img src="/img/logo.png" alt=""></a>
                             </div>
                             <ul>
                                 <li>Adresse: 39 Rue Aristide Briand 92300 Levallois-Perret</li>
@@ -180,7 +180,7 @@
                             <ul>
                                 <li><a href="#">Mon compte</a></li>
                                 <li><a href="#">Panier</a></li>
-                                <li><a href="#">Courses</a></li>
+                                <li><a href="/rayons">Courses</a></li>
                             </ul>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                                 <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             </div>
                             <div class="payment-pic">
-                                <img src="img/payment-method.png" alt="">
+                                <img src="/img/payment-method.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -215,15 +215,15 @@
         </footer>
     </body>
     
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/jquery.dd.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery.zoom.min.js"></script>
+    <script src="/js/jquery.dd.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
     {% block javascripts %}{% endblock %}
 </html>

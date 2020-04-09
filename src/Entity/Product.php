@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -94,6 +95,11 @@ class Product
         $this->product_name = $product_name;
 
         return $this;
+    }
+
+    public function getSlug()
+    {
+        return (new Slugify())->slugify($this->product_name);
     }
 
     public function getBarCode(): ?string

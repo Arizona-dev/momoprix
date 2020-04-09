@@ -19,12 +19,39 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findAllVisible()
+    /**
+    * @return Product[] Returns an array of Product objects
+    */
+    public function findAllVisible(): array
+    {
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+            SELECT p.id, p.product_name, p.price, p.price_weight, p.image_url, p.description, p.specifications, c.category_name
+            FROM product p
+            LEFT JOIN category c ON p.category_id = c.id
+            WHERE stock > '0'
+            ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        // returns an array of arrays
+        return $stmt->fetchAll();
+    }
+
+    /**
+    * @return Product[] Returns a Product object
+    */
+    public function findProduct($id)
     {
         return $this->createQueryBuilder('p')
-            ->where('p.stock > 0')
+            ->setParameter('p_id', $id)
+            ->where('p.id = :p_id')
+            ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
 
