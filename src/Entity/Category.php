@@ -21,17 +21,17 @@ class Category
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $category_name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_url;
+    private $imageUrl;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      */
-    private $Category_has_category;
+    private $categoryHasCategory;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="Category")
@@ -40,7 +40,7 @@ class Category
 
     public function __construct()
     {
-        $this->Category_has_category = new ArrayCollection();
+        $this->categoryHasCategory = new ArrayCollection();
         $this->products = new ArrayCollection();
     }
 
@@ -49,26 +49,26 @@ class Category
         return $this->id;
     }
 
-    public function getCategoryName(): ?string
+    public function getName(): ?string
     {
-        return $this->category_name;
+        return $this->name;
     }
 
-    public function setCategoryName(string $category_name): self
+    public function setName(string $name): self
     {
-        $this->category_name = $category_name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getImageUrl(): ?string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
     public function setImageUrl(?string $image_url): self
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $image_url;
 
         return $this;
     }
@@ -78,13 +78,13 @@ class Category
      */
     public function getCategoryHasCategory(): Collection
     {
-        return $this->Category_has_category;
+        return $this->categoryHasCategory;
     }
 
     public function addCategoryHasCategory(self $categoryHasCategory): self
     {
-        if (!$this->Category_has_category->contains($categoryHasCategory)) {
-            $this->Category_has_category[] = $categoryHasCategory;
+        if (!$this->categoryHasCategory->contains($categoryHasCategory)) {
+            $this->categoryHasCategory[] = $categoryHasCategory;
         }
 
         return $this;
@@ -92,8 +92,8 @@ class Category
 
     public function removeCategoryHasCategory(self $categoryHasCategory): self
     {
-        if ($this->Category_has_category->contains($categoryHasCategory)) {
-            $this->Category_has_category->removeElement($categoryHasCategory);
+        if ($this->categoryHasCategory->contains($categoryHasCategory)) {
+            $this->categoryHasCategory->removeElement($categoryHasCategory);
         }
 
         return $this;

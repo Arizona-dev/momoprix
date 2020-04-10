@@ -41,17 +41,17 @@ class Customer
     /**
      * @ORM\Column(type="date")
      */
-    private $date_of_birth;
+    private $dateOfBirth;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updated;
+    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
@@ -118,36 +118,36 @@ class Customer
 
     public function getDateOfBirth(): ?\DateTimeInterface
     {
-        return $this->date_of_birth;
+        return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeInterface $date_of_birth): self
+    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
-        $this->date_of_birth = $date_of_birth;
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }
 
     public function getCreated(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     public function setCreated(\DateTimeInterface $created): self
     {
-        $this->created = $created;
+        $this->createdAt = $created;
 
         return $this;
     }
 
     public function getUpdated(): ?\DateTimeInterface
     {
-        return $this->updated;
+        return $this->updatedAt;
     }
 
     public function setUpdated(\DateTimeInterface $updated): self
     {
-        $this->updated = $updated;
+        $this->updatedAt = $updated;
 
         return $this;
     }

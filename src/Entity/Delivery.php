@@ -29,7 +29,7 @@ class Delivery
     /**
      * @ORM\Column(type="date")
      */
-    private $date_delivery;
+    private $dateDelivery;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Order", cascade={"persist", "remove"})
@@ -72,12 +72,12 @@ class Delivery
 
     public function getDateDelivery(): ?\DateTimeInterface
     {
-        return $this->date_delivery;
+        return $this->dateDelivery;
     }
 
     public function setDateDelivery(\DateTimeInterface $date_delivery): self
     {
-        $this->date_delivery = $date_delivery;
+        $this->dateDelivery = $date_delivery;
 
         return $this;
     }

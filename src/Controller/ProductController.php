@@ -24,7 +24,6 @@ class ProductController extends AbstractController
     public function index(): Response
     {
         $products = $this->repository->findAllVisible();
-        
         dump($products);
         return $this->render('/shop.html.twig', [
             'current_menu' => 'shop',
@@ -37,8 +36,16 @@ class ProductController extends AbstractController
      * @param Product $products
      * @return Response
      */
-    public function show(Product $products): Response
+    public function show(Product $products, string $slug, int $id): Response
     {
+        //$products = $this->repository->findProduct($id);
+        if ($products->getSlug() !== $slug || $products->getId() !== $id) {
+            return $this->redirectToRoute('product.show', [
+                'id' => $products->getId(),
+                'slug' => $products->getSlug()
+            ]);
+        }
+        dump($products);
         return $this->render('/product.html.twig', [
             'current_menu' => 'shop',
             'products' => $products

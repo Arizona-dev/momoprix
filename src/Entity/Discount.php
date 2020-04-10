@@ -19,7 +19,7 @@ class Discount
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $discount_code;
+    private $discountCode;
 
     /**
      * @ORM\Column(type="string", length=5)
@@ -33,12 +33,12 @@ class Discount
 
     public function getDiscountCode(): ?string
     {
-        return $this->discount_code;
+        return $this->discountCode;
     }
 
     public function setDiscountCode(string $discount_code): self
     {
-        $this->discount_code = $discount_code;
+        $this->discountCode = $discount_code;
 
         return $this;
     }

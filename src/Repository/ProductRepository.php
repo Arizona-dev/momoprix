@@ -24,7 +24,7 @@ class ProductRepository extends ServiceEntityRepository
     */
     public function findAllVisible(): array
     {
-
+        /*
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = "
@@ -38,6 +38,13 @@ class ProductRepository extends ServiceEntityRepository
 
         // returns an array of arrays
         return $stmt->fetchAll();
+        */
+
+        return $this->createQueryBuilder('p')
+            ->where('p.stock > 0')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /**

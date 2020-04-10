@@ -31,7 +31,7 @@ class Order
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_order;
+    private $dateOrder;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
@@ -46,10 +46,10 @@ class Order
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date_payment;
+    private $datePayment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="Product_has_Order")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="ProductHasOrder")
      */
     private $qte;
 
@@ -99,12 +99,12 @@ class Order
 
     public function getDateOrder(): ?\DateTimeInterface
     {
-        return $this->date_order;
+        return $this->dateOrder;
     }
 
     public function setDateOrder(\DateTimeInterface $date_order): self
     {
-        $this->date_order = $date_order;
+        $this->dateOrder = $date_order;
 
         return $this;
     }
@@ -135,12 +135,12 @@ class Order
 
     public function getDatePayment(): ?\DateTimeInterface
     {
-        return $this->date_payment;
+        return $this->datePayment;
     }
 
     public function setDatePayment(?\DateTimeInterface $date_payment): self
     {
-        $this->date_payment = $date_payment;
+        $this->datePayment = $date_payment;
 
         return $this;
     }

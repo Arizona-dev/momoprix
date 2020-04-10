@@ -22,12 +22,12 @@ class Product
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $product_name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $bar_code;
+    private $barCode;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
@@ -37,12 +37,12 @@ class Product
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
      */
-    private $price_weight;
+    private $priceWeight;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_of_entry;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="integer")
@@ -52,7 +52,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image_url;
+    private $imageUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -67,7 +67,7 @@ class Product
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="qte")
      */
-    private $Product_has_Order;
+    private $ProductHasOrder;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
@@ -76,7 +76,7 @@ class Product
 
     public function __construct()
     {
-        $this->Product_has_Order = new ArrayCollection();
+        $this->ProductHasOrder = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
     }
 
@@ -85,14 +85,14 @@ class Product
         return $this->id;
     }
 
-    public function getProductName(): ?string
+    public function getName(): ?string
     {
-        return $this->product_name;
+        return $this->name;
     }
 
-    public function setProductName(string $product_name): self
+    public function setName(string $name): self
     {
-        $this->product_name = $product_name;
+        $this->name = $name;
 
         return $this;
     }
@@ -104,12 +104,12 @@ class Product
 
     public function getBarCode(): ?string
     {
-        return $this->bar_code;
+        return $this->barCode;
     }
 
-    public function setBarCode(string $bar_code): self
+    public function setBarCode(string $barCode): self
     {
-        $this->bar_code = $bar_code;
+        $this->barCode = $barCode;
 
         return $this;
     }
@@ -128,24 +128,24 @@ class Product
 
     public function getPriceWeight(): ?string
     {
-        return $this->price_weight;
+        return $this->priceWeight;
     }
 
     public function setPriceWeight(?string $price_weight): self
     {
-        $this->price_weight = $price_weight;
+        $this->price_wepriceWeightight = $price_weight;
 
         return $this;
     }
 
-    public function getDateOfEntry(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->date_of_entry;
+        return $this->createdAt;
     }
 
-    public function setDateOfEntry(\DateTimeInterface $date_of_entry): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->date_of_entry = $date_of_entry;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -164,12 +164,12 @@ class Product
 
     public function getImageUrl(): ?string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
-    public function setImageUrl(string $image_url): self
+    public function setImageUrl(string $imageUrl): self
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
@@ -203,13 +203,13 @@ class Product
      */
     public function getProductHasOrder(): Collection
     {
-        return $this->Product_has_Order;
+        return $this->ProductHasOrder;
     }
 
     public function addProductHasOrder(Order $productHasOrder): self
     {
-        if (!$this->Product_has_Order->contains($productHasOrder)) {
-            $this->Product_has_Order[] = $productHasOrder;
+        if (!$this->ProductHasOrder->contains($productHasOrder)) {
+            $this->ProductHasOrder[] = $productHasOrder;
         }
 
         return $this;
@@ -217,8 +217,8 @@ class Product
 
     public function removeProductHasOrder(Order $productHasOrder): self
     {
-        if ($this->Product_has_Order->contains($productHasOrder)) {
-            $this->Product_has_Order->removeElement($productHasOrder);
+        if ($this->ProductHasOrder->contains($productHasOrder)) {
+            $this->ProductHasOrder->removeElement($productHasOrder);
         }
 
         return $this;

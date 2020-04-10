@@ -25,10 +25,10 @@ class AppFixtures extends Fixture
             shuffle($categories);
             $product = new Product();
             $product
-            ->setProductName($faker->words(2, true))
+            ->setName($faker->words(2, true))
             ->setPrice($faker->numberBetween(1, 30))
             ->setBarCode($faker->numberBetween(9800000, 9899999))
-            ->setDateOfEntry($faker->dateTimeAD('now', 'Europe/Paris'))
+            ->setCreatedAt($faker->dateTimeAD('now', 'Europe/Paris'))
             ->setStock($faker->numberBetween(30, 200))
             ->setCategory($categories[$i])
             ->setDescription($faker->sentences(2, true))
@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 50; $i++) {
             $category = new Category();
             $category
-            ->setCategoryName($faker->words($nb = 1, $asText = true))
+            ->setName($faker->words($nb = 1, $asText = true))
             ->setImageUrl("Product.png");
             $manager->persist($category);
             array_push($categ, $category);
@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 25; $i++) {
             shuffle($categories);
             $category = new Category();
-            $category->setCategoryName($faker->words($nb = 1, $asText = true));
+            $category->setName($faker->words($nb = 1, $asText = true));
             $category->setImageUrl("Product.png");
             $category->addCategoryHasCategory($categories[$i]);
             $manager->persist($category);
