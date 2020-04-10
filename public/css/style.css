@@ -186,7 +186,6 @@ ol {
 	padding: 12px 30px;
 	color: #ffffff;
 	background: #e7ab3c;
-	text-transform: uppercase;
 }
 
 .site-btn {
@@ -2149,6 +2148,7 @@ ol {
 .product-details .pd-title h3 {
 	color: #252525;
 	font-weight: 700;
+	text-transform: capitalize;
 }
 
 .product-details .pd-title .heart-icon {
@@ -2159,20 +2159,14 @@ ol {
 	top: 0;
 }
 
-.product-details .pd-rating {
-	margin-bottom: 10px;
+.product-details .detail-a {
+	font-size: 22px;
+	color: green;
 }
 
-.product-details .pd-rating i {
-	font-size: 12px;
-	display: inline-block;
-	color: #FAC451;
-	margin-right: -3px;
-}
-
-.product-details .pd-rating span {
-	font-size: 12px;
-	color: #999591;
+.product-details .detail-b {
+	font-size: 22px;
+	color: red;
 }
 
 .product-details .pd-desc {
@@ -2297,7 +2291,7 @@ ol {
 	float: left;
 	line-height: 38px;
 	cursor: pointer;
-	width: 18px;
+	width: 16px;
 }
 
 .product-details .quantity .pro-qty .qtybtn.dec {
@@ -2341,7 +2335,7 @@ ol {
 }
 
 .product-details .pd-share .p-code {
-	font-size: 16px;
+	font-size: 12px;
 	color: #252525;
 	float: left;
 }

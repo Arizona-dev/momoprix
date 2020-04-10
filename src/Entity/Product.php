@@ -99,7 +99,7 @@ class Product
 
     public function getSlug()
     {
-        return (new Slugify())->slugify($this->product_name);
+        return (new Slugify())->slugify($this->name);
     }
 
     public function getBarCode(): ?string

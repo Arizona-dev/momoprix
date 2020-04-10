@@ -33,22 +33,21 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/courses-en-ligne/{slug}-{id}", name="product.show", requirements={"slug": "[a-z0-9\-]*"})
-     * @param Product $products
+     * @param Product $product
      * @return Response
      */
-    public function show(Product $products, string $slug, int $id): Response
+    public function show(Product $product, string $slug, int $id): Response
     {
-        //$products = $this->repository->findProduct($id);
-        if ($products->getSlug() !== $slug || $products->getId() !== $id) {
+        if ($product->getSlug() !== $slug || $product->getId() !== $id) {
             return $this->redirectToRoute('product.show', [
-                'id' => $products->getId(),
-                'slug' => $products->getSlug()
+                'id' => $product->getId(),
+                'slug' => $product->getSlug()
             ]);
         }
-        dump($products);
+        dump($product, $slug, $id);
         return $this->render('/product.html.twig', [
             'current_menu' => 'shop',
-            'products' => $products
+            'products' => $product
         ]);
     }
 

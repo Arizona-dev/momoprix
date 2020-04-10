@@ -5,7 +5,7 @@
 
 {% block categories_list %}
     {% for product in products %}
-    <li><a href="#">{{ product.category_name }}</a></li>
+    <li><a href="#">{{ product.category.name }}</a></li>
     {% endfor %}
 {% endblock %}
 
@@ -33,7 +33,7 @@
                         <h4 class="fw-title">Rayons</h4>
                         <ul class="filter-catagories">
                              {% for product in products %}
-                                <li id="category_list">{{ product.category_name }}<a href="#"></a></li>
+                                <li id="category_list">{{ product.category.name }}<a href="#"></a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -81,7 +81,7 @@
                             <div class="col-lg-4 col-sm-6">
                                 <div class="product-item">
                                     <div class="pi-pic">
-                                        <img src="/img/products/{{ product.image_url }}" alt="">
+                                        <img src="/img/products/{{ product.imageUrl }}" alt="">
                                         <div class="icon">
                                             <i class="icon_heart_alt"></i>
                                         </div>
@@ -91,9 +91,9 @@
                                         </ul>
                                     </div>
                                     <div class="pi-text">
-                                        <div class="catagory-name">{{ product.category_name }}</div>
-                                        <a href="{{ path('product.show', {id: product.id, slug: product.product_name|slugify }) }}">
-                                            <h5>{{ product.product_name }}</h5>
+                                        <div class="catagory-name">{{ product.category.name }}</div>
+                                        <a href="{{ path('product.show', {id: product.id, slug: product.slug }) }}">
+                                            <h5>{{ product.name }}</h5>
                                         </a>
                                         <div class="product-price">
                                             {{ product.price }}
