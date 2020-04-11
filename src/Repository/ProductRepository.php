@@ -22,7 +22,7 @@ class ProductRepository extends ServiceEntityRepository
     /**
     * @return Product[] Returns an array of Product objects
     */
-    public function findAllVisible(): array
+    public function findAll(): array
     {
         return $this->createQueryBuilder('p')
             ->getQuery()

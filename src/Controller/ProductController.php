@@ -23,7 +23,7 @@ class ProductController extends AbstractController
      */
     public function index(): Response
     {
-        $products = $this->repository->findAllVisible();
+        $products = $this->repository->findAll();
         dump($products);
         return $this->render('/shop.html.twig', [
             'current_menu' => 'shop',
@@ -42,7 +42,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('product.show', [
                 'id' => $product->getId(),
                 'slug' => $product->getSlug()
-            ]);
+            ], 301);
         }
         dump($product, $slug, $id);
         return $this->render('/product.html.twig', [

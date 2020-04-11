@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -26,16 +27,19 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Assert\Range(min=10000, max=9999999)
      */
     private $barCode;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\Range(min=0.1, max=500)
      */
     private $price;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @Assert\Range(min=0.1, max=500)
      */
     private $priceWeight;
 
@@ -46,6 +50,7 @@ class Product
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
      */
     private $stock;
 
@@ -78,6 +83,7 @@ class Product
     {
         $this->ProductHasOrder = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -133,7 +139,7 @@ class Product
 
     public function setPriceWeight(?string $price_weight): self
     {
-        $this->price_wepriceWeightight = $price_weight;
+        $this->priceWeight = $price_weight;
 
         return $this;
     }
@@ -145,7 +151,7 @@ class Product
 
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime("now");
 
         return $this;
     }
