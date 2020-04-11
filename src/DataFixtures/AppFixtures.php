@@ -32,6 +32,7 @@ class AppFixtures extends Fixture
             ->setStock($faker->numberBetween(30, 200))
             ->setCategory($categories[$i])
             ->setDescription($faker->sentences(2, true))
+            ->setSpecifications($faker->sentences(2, true))
             ->setImageUrl("Product.png");
             $manager->persist($product);
         }
