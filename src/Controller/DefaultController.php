@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
      */
     public function index(ProductRepository $repository): Response
     {
-        $products = $repository->findAllVisible();
+        $products = $repository->findAll();
         dump($products);
         return $this->render('/index.html.twig', [
             'current_menu' => 'home',

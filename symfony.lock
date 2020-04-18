@@ -1,7 +1,4 @@
 {
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
     "cocur/slugify": {
         "version": "v4.0.0"
     },
@@ -96,29 +93,20 @@
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        },
-        "files": [
-            "./config/packages/dev/easy_log_handler.yaml"
-        ]
-    },
     "egulias/email-validator": {
         "version": "2.1.17"
     },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
-    "gedmo/doctrine-extensions": {
-        "version": "v2.4.39"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "knplabs/knp-components": {
+        "version": "v2.3.3"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.1.2"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
@@ -178,18 +166,6 @@
         },
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
-        ]
-    },
-    "stof/doctrine-extensions-bundle": {
-        "version": "1.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.2",
-            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
-        },
-        "files": [
-            "./config/packages/stof_doctrine_extensions.yaml"
         ]
     },
     "symfony/asset": {

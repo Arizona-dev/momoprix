@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Repository\ProductRepository;
 use App\Entity\Product;
+use App\Entity\ProductSearch;
+use App\Form\ProductSearchType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends AbstractController
 {
@@ -21,13 +25,21 @@ class ProductController extends AbstractController
      * @Route("/courses-en-ligne", name="product.index")
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $products = $this->repository->findAll();
-        dump($products);
+        $search = new ProductSearch();
+        $form = $this->createForm(ProductSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $products = $paginator->paginate(
+            $this->repository->findAllQuery($search),
+            $request->query->getInt('page', 1),
+            12
+        );
         return $this->render('/shop.html.twig', [
             'current_menu' => 'shop',
-            'products' => $products
+            'products'     => $products,
+            'form'         => $form->createView()
         ]);
     }
 
@@ -44,7 +56,6 @@ class ProductController extends AbstractController
                 'slug' => $product->getSlug()
             ], 301);
         }
-        dump($product, $slug, $id);
         return $this->render('/product.html.twig', [
             'current_menu' => 'shop',
             'products' => $product

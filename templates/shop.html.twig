@@ -4,8 +4,8 @@
 {% block menu_active_2 'active'%}
 
 {% block categories_list %}
-    {% for product in products %}
-    <li><a href="#">{{ product.category.name }}</a></li>
+    {% for Product in products %}
+        <li><a href="#">{{ Product.category.name }}</a></li>
     {% endfor %}
 {% endblock %}
 
@@ -33,28 +33,28 @@
                         <h4 class="fw-title">Rayons</h4>
                         <ul class="filter-catagories">
                              {% for product in products %}
-                                <li id="category_list">{{ product.category.name }}<a href="#"></a></li>
+                                <li id="category_list"><a href="#">{{ product.category.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
 
                     <div class="filter-widget">
                         <h4 class="fw-title">Prix</h4>
-                        <div class="filter-range-wrap">
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
-                                </div>
+                        {{ form_start(form) }}
+
+                        <div class="form-row">
+                            <div class="col">
+                                {{ form_row(form.minPrice) }}
                             </div>
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                data-min="1" data-max="50">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                            <div class="col">
+                                {{ form_row(form.maxPrice) }}
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary">Rechercher</button>
                             </div>
                         </div>
-                        <a href="#" class="filter-btn">Filtrer</a>
+
+                        {{ form_end(form) }}
                     </div>
                 </div>
                 <div class="col-lg-9 order-1 order-lg-2">
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-5 text-right">
-                                <p>01 - 09 Produits affichés</p>
+                                <p>Produits affichés 01 - 12</p>
                             </div>
                         </div>
                     </div>
@@ -104,11 +104,8 @@
                         {% endfor %}
                         </div>
                     </div>
-                    <div class="loading-more">
-                        <i class="icon_loading"></i>
-                        <a href="#">
-                            Loading More
-                        </a>
+                    <div class="row justify-content-center">
+                        {{ knp_pagination_render(products) }}
                     </div>
                 </div>
             </div>
