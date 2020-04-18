@@ -1,15 +1,18 @@
 <?php
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductSearch {
 
 
     /**
      * @var int|null
+     * @Assert\Range(min=1)
      */
     private $maxPrice;
 
     /**
+     * @Assert\Range(min=0)
      * @var int|null
      */
     private $minPrice;
