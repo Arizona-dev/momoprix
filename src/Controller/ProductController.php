@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use App\Entity\Product;
 use App\Entity\ProductSearch;
 use App\Form\ProductSearchType;
+use App\Service\Cart\CartService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductController extends AbstractController
 {
 
-    public function __construct(ProductRepository $repository)
+    protected $repository;
+    protected $cartService;
+
+    public function __construct(ProductRepository $repository, CartService $cartService)
     {
         $this->repository = $repository;
+        $this->cartService = $cartService;
     }
 
 
@@ -36,10 +41,13 @@ class ProductController extends AbstractController
             $request->query->getInt('page', 1),
             12
         );
+
         return $this->render('/shop.html.twig', [
             'current_menu' => 'shop',
             'products'     => $products,
-            'form'         => $form->createView()
+            'form'         => $form->createView(),
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
         ]);
     }
 
@@ -58,7 +66,9 @@ class ProductController extends AbstractController
         }
         return $this->render('/product.html.twig', [
             'current_menu' => 'shop',
-            'products' => $product
+            'products' => $product,
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
         ]);
     }
 

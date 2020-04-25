@@ -86,7 +86,7 @@
                                             <i class="icon_heart_alt"></i>
                                         </div>
                                         <ul>
-                                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                            <li class="w-icon active"><a href="{{ path('cart_add', {'id': product.id}) }}"><i class="icon_bag_alt"></i></a></li>
                                             <li class="quick-view"><a href="{{ path('product.show', {id: product.id, slug: product.slug }) }}">Voir</a></li>
                                         </ul>
                                     </div>
