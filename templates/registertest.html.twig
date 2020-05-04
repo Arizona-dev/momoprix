@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+{% block javascripts %}<script src="js/register.js"></script>{% endblock %}
+
+
+{% block title %}Inscription{% endblock %}
+
+{# {% block body %}
+
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="/"><i class="fa fa-home"></i> Accueil</a>
+                        <span>Inscription</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="login-form">
+                        <h2>Créer un compte</h2>
+                        <form action="" method="POST">
+                            <div class="group-input">
+                                <label for="lastname">Nom *</label>
+                                <input name="lastname" type="text" id="lastname">
+                            </div>
+                            <div class="group-input">
+                                <label for="firstname">Prénom *</label>
+                                <input name="firstname" type="text" id="firstname">
+                            </div>
+                            <div class="group-input">
+                                <label for="email">Adresse email *</label>
+                                <input name="email" type="text" id="email">
+                            </div>
+                            <div class="group-input">
+                                <label for="password">Mot de passe *</label>
+                                <input name="password" type="password" id="password">
+                            </div>
+                            <div class="group-input">
+                                <label for="password2">Re-taper le Mot de passe *</label>
+                                <input name="password2" type="password" id="password2">
+                            </div>
+                            <div class="group-input">
+                                <label for="birthdate">Date de naissance *</label>
+                                <input name="birthdate" type="date" id="birthdate">
+                            </div>
+                            <button type="submit" class="site-btn login-btn">S'inscrire</button>
+                        </form>
+                        <div class="switch-login">
+                            <a href="/login" class="or-login">Ou se connecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} #}
+
+{% block body %}
+<div class="container">
+            <div class="dividerRegister"></div>
+            <div class="headingRegister">
+                <h2 class="register">Inscrivez-vous</h2>
+            </div>
+                
+           <div class="row">
+               <div class="col-lg-10 col-lg-offset-1">
+                    <form id="contact-form" method="post" action="" role="form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="firstname">Prénom <span class="blue">*</span></label>
+                                <input id="firstname" type="text" name="firstname" class="form-control" placeholder="Votre prénom">
+                                <p class="comments"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Nom <span class="blue">*</span></label>
+                                <input id="name" type="text" name="name" class="form-control" placeholder="Votre Nom">
+                                <p class="comments"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email">Email <span class="blue">*</span></label>
+                                <input id="email" type="text" name="email" class="form-control" placeholder="Votre Email">
+                                <p class="comments"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone">Téléphone</label>
+                                <input id="phone" type="tel" name="phone" class="form-control" placeholder="Votre Téléphone">
+                                <p class="comments"></p>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="message">Message <span class="blue">*</span></label>
+                                <textarea id="message" name="message" class="form-control" placeholder="Votre Message" rows="4"></textarea>
+                                <p class="comments"></p>
+                            </div>
+                            <div class="col-md-12">
+                                <p class="blue"><strong>* Ces informations sont requises.</strong></p>
+                            </div>
+                            <div class="col-md-12 Mike">
+                                <input type="submit" class="button1" value="Envoyer">
+                            </div>    
+                        </div>
+                    </form>
+                </div>
+           </div>
+        </div>
+{% endblock %}
+
+
+
