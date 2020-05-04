@@ -24,14 +24,14 @@ class Order
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=2)
      */
     private $status;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
-    private $date_order;
+    private $dateOrder;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
@@ -44,31 +44,24 @@ class Order
     private $priceTTC;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date_payment;
+    private $datePayment;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="ProductHasOrder")
+     */
+    private $qte;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
      */
-    private $customer_idcustomer;
+    private $Customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
      */
-    private $address_idaddress;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Delivery", mappedBy="order_idorder", cascade={"persist", "remove"})
-     */
-    private $delivery;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="product_has_order")
-     */
-    private $qte;
+    private $Address;
 
     public function __construct()
     {
@@ -106,12 +99,12 @@ class Order
 
     public function getDateOrder(): ?\DateTimeInterface
     {
-        return $this->date_order;
+        return $this->dateOrder;
     }
 
     public function setDateOrder(\DateTimeInterface $date_order): self
     {
-        $this->date_order = $date_order;
+        $this->dateOrder = $date_order;
 
         return $this;
     }
@@ -142,53 +135,12 @@ class Order
 
     public function getDatePayment(): ?\DateTimeInterface
     {
-        return $this->date_payment;
+        return $this->datePayment;
     }
 
     public function setDatePayment(?\DateTimeInterface $date_payment): self
     {
-        $this->date_payment = $date_payment;
-
-        return $this;
-    }
-
-    public function getCustomerIdcustomer(): ?Customer
-    {
-        return $this->customer_idcustomer;
-    }
-
-    public function setCustomerIdcustomer(?Customer $customer_idcustomer): self
-    {
-        $this->customer_idcustomer = $customer_idcustomer;
-
-        return $this;
-    }
-
-    public function getAddressIdaddress(): ?Address
-    {
-        return $this->address_idaddress;
-    }
-
-    public function setAddressIdaddress(?Address $address_idaddress): self
-    {
-        $this->address_idaddress = $address_idaddress;
-
-        return $this;
-    }
-
-    public function getDelivery(): ?Delivery
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(Delivery $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        // set the owning side of the relation if necessary
-        if ($delivery->getOrderIdorder() !== $this) {
-            $delivery->setOrderIdorder($this);
-        }
+        $this->datePayment = $date_payment;
 
         return $this;
     }
@@ -217,6 +169,30 @@ class Order
             $this->qte->removeElement($qte);
             $qte->removeProductHasOrder($this);
         }
+
+        return $this;
+    }
+
+    public function getCustomerId(): ?Customer
+    {
+        return $this->Customer;
+    }
+
+    public function setCustomerId(?Customer $Customer): self
+    {
+        $this->Customer = $Customer;
+
+        return $this;
+    }
+
+    public function getAddressId(): ?Address
+    {
+        return $this->Address;
+    }
+
+    public function setAddressId(?Address $Address): self
+    {
+        $this->Address = $Address;
 
         return $this;
     }

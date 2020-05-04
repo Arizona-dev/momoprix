@@ -21,12 +21,12 @@ class Customer
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $lastname;
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $firstname;
+    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=70)
@@ -41,55 +41,31 @@ class Customer
     /**
      * @ORM\Column(type="date")
      */
-    private $date_of_birth;
+    private $dateOfBirth;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updated;
+    private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="customer_idcustomer", orphanRemoval=true)
-     */
-    private $addresses;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="customer_idcustomer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
      */
     private $orders;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="wishlist")
-     */
-    private $products;
-
     public function __construct()
     {
-        $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
-        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
     }
 
     public function getFirstname(): ?string
@@ -100,6 +76,18 @@ class Customer
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -130,67 +118,36 @@ class Customer
 
     public function getDateOfBirth(): ?\DateTimeInterface
     {
-        return $this->date_of_birth;
+        return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeInterface $date_of_birth): self
+    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
-        $this->date_of_birth = $date_of_birth;
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }
 
     public function getCreated(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     public function setCreated(\DateTimeInterface $created): self
     {
-        $this->created = $created;
+        $this->createdAt = $created;
 
         return $this;
     }
 
     public function getUpdated(): ?\DateTimeInterface
     {
-        return $this->updated;
+        return $this->updatedAt;
     }
 
     public function setUpdated(\DateTimeInterface $updated): self
     {
-        $this->updated = $updated;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Address[]
-     */
-    public function getAddresses(): Collection
-    {
-        return $this->addresses;
-    }
-
-    public function addAddress(Address $address): self
-    {
-        if (!$this->addresses->contains($address)) {
-            $this->addresses[] = $address;
-            $address->setCustomerIdcustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddress(Address $address): self
-    {
-        if ($this->addresses->contains($address)) {
-            $this->addresses->removeElement($address);
-            // set the owning side to null (unless already changed)
-            if ($address->getCustomerIdcustomer() === $this) {
-                $address->setCustomerIdcustomer(null);
-            }
-        }
+        $this->updatedAt = $updated;
 
         return $this;
     }
@@ -207,7 +164,7 @@ class Customer
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
-            $order->setCustomerIdcustomer($this);
+            $order->setCustomerId($this);
         }
 
         return $this;
@@ -218,37 +175,9 @@ class Customer
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);
             // set the owning side to null (unless already changed)
-            if ($order->getCustomerIdcustomer() === $this) {
-                $order->setCustomerIdcustomer(null);
+            if ($order->getCustomerId() === $this) {
+                $order->setCustomerId(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addWishlist($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeWishlist($this);
         }
 
         return $this;

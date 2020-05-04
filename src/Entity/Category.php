@@ -21,21 +21,27 @@ class Category
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $category_name;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_url;
+    private $imageUrl;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="categories")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      */
-    private $categories;
+    private $categoryHasCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="Category")
+     */
+    private $products;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
+        $this->categoryHasCategory = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,26 +49,26 @@ class Category
         return $this->id;
     }
 
-    public function getCategory_name(): ?string
+    public function getName(): ?string
     {
-        return $this->Category_name;
+        return $this->name;
     }
 
-    public function setCategory_name(string $category_name): self
+    public function setName(string $name): self
     {
-        $this->category_name = $category_name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getImageUrl(): ?string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
-    public function setImageUrl(string $image_url): self
+    public function setImageUrl(?string $image_url): self
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $image_url;
 
         return $this;
     }
@@ -70,24 +76,55 @@ class Category
     /**
      * @return Collection|self[]
      */
-    public function getCategories(): Collection
+    public function getCategoryHasCategory(): Collection
     {
-        return $this->categories;
+        return $this->categoryHasCategory;
     }
 
-    public function addCategory(self $category): self
+    public function addCategoryHasCategory(self $categoryHasCategory): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
+        if (!$this->categoryHasCategory->contains($categoryHasCategory)) {
+            $this->categoryHasCategory[] = $categoryHasCategory;
         }
 
         return $this;
     }
 
-    public function removeCategory(self $category): self
+    public function removeCategoryHasCategory(self $categoryHasCategory): self
     {
-        if ($this->categories->contains($category)) {
-            $this->categories->removeElement($category);
+        if ($this->categoryHasCategory->contains($categoryHasCategory)) {
+            $this->categoryHasCategory->removeElement($categoryHasCategory);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
         }
 
         return $this;

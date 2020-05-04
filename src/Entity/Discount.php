@@ -14,31 +14,31 @@ class Discount
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $discount_id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $discount_code;
+    private $discountCode;
 
     /**
      * @ORM\Column(type="string", length=5)
      */
     private $percentage;
 
-    public function getDiscountId(): ?int
+    public function getId(): ?int
     {
-        return $this->discount_id;
+        return $this->id;
     }
 
     public function getDiscountCode(): ?string
     {
-        return $this->discount_code;
+        return $this->discountCode;
     }
 
     public function setDiscountCode(string $discount_code): self
     {
-        $this->discount_code = $discount_code;
+        $this->discountCode = $discount_code;
 
         return $this;
     }

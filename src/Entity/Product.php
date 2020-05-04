@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -21,27 +23,41 @@ class Product
     /**
      * @ORM\Column(type="string", length=60)
      */
-    private $product_name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Assert\Range(min=10000, max=9999999)
      */
-    private $bar_code;
+    private $barCode;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\Range(min=0.1, max=500)
      */
     private $price;
 
     /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @Assert\Range(min=0.1, max=500)
+     */
+    private $priceWeight;
+
+    /**
      * @ORM\Column(type="datetime")
      */
-    private $date_of_entry;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
      */
     private $stock;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -49,39 +65,25 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $category_idcategory;
+    private $specifications;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="qte")
      */
-    private $image_url;
+    private $ProductHasOrder;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
      */
-    private $product_has_order;
-
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    private $qte;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Customer", inversedBy="products")
-     */
-    private $wishlist;
-
-    /**
-     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
-     */
-    private $price_weight;
+    private $Category;
 
     public function __construct()
     {
-        $this->product_has_order = new ArrayCollection();
+        $this->ProductHasOrder = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
+        $this->createdAt = new \DateTime("now");
     }
 
     public function getId(): ?int
@@ -89,26 +91,31 @@ class Product
         return $this->id;
     }
 
-    public function getProduct_name(): ?string
+    public function getName(): ?string
     {
-        return $this->product_name;
+        return $this->name;
     }
 
-    public function setProduct_name(string $product_name): self
+    public function setName(string $name): self
     {
-        $this->product_name = $product_name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getBarCode(): ?string
+    public function getSlug()
     {
-        return $this->bar_code;
+        return (new Slugify())->slugify($this->name);
     }
 
-    public function setBarCode(string $bar_code): self
+    public function getBarCode(): ?string
     {
-        $this->bar_code = $bar_code;
+        return $this->barCode;
+    }
+
+    public function setBarCode(string $barCode): self
+    {
+        $this->barCode = $barCode;
 
         return $this;
     }
@@ -125,14 +132,26 @@ class Product
         return $this;
     }
 
-    public function getDateOfEntry(): ?\DateTimeInterface
+    public function getPriceWeight(): ?string
     {
-        return $this->date_of_entry;
+        return $this->priceWeight;
     }
 
-    public function setDateOfEntry(\DateTimeInterface $date_of_entry): self
+    public function setPriceWeight(?string $price_weight): self
     {
-        $this->date_of_entry = $date_of_entry;
+        $this->priceWeight = $price_weight;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = new \DateTime("now");
 
         return $this;
     }
@@ -149,6 +168,18 @@ class Product
         return $this;
     }
 
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -161,26 +192,14 @@ class Product
         return $this;
     }
 
-    public function getCategoryIdcategory(): ?int
+    public function getSpecifications(): ?string
     {
-        return $this->category_idcategory;
+        return $this->specifications;
     }
 
-    public function setCategoryIdcategory(int $category_idcategory): self
+    public function setSpecifications(?string $specifications): self
     {
-        $this->category_idcategory = $category_idcategory;
-
-        return $this;
-    }
-
-    public function getImageUrl(): ?string
-    {
-        return $this->image_url;
-    }
-
-    public function setImageUrl(string $image_url): self
-    {
-        $this->image_url = $image_url;
+        $this->specifications = $specifications;
 
         return $this;
     }
@@ -190,13 +209,13 @@ class Product
      */
     public function getProductHasOrder(): Collection
     {
-        return $this->product_has_order;
+        return $this->ProductHasOrder;
     }
 
     public function addProductHasOrder(Order $productHasOrder): self
     {
-        if (!$this->product_has_order->contains($productHasOrder)) {
-            $this->product_has_order[] = $productHasOrder;
+        if (!$this->ProductHasOrder->contains($productHasOrder)) {
+            $this->ProductHasOrder[] = $productHasOrder;
         }
 
         return $this;
@@ -204,59 +223,21 @@ class Product
 
     public function removeProductHasOrder(Order $productHasOrder): self
     {
-        if ($this->product_has_order->contains($productHasOrder)) {
-            $this->product_has_order->removeElement($productHasOrder);
+        if ($this->ProductHasOrder->contains($productHasOrder)) {
+            $this->ProductHasOrder->removeElement($productHasOrder);
         }
 
         return $this;
     }
 
-    public function getQte(): ?int
+    public function getCategory(): ?Category
     {
-        return $this->qte;
+        return $this->Category;
     }
 
-    public function setQte(?int $qte): self
+    public function setCategory(?Category $Category): self
     {
-        $this->qte = $qte;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Customer[]
-     */
-    public function getWishlist(): Collection
-    {
-        return $this->wishlist;
-    }
-
-    public function addWishlist(Customer $wishlist): self
-    {
-        if (!$this->wishlist->contains($wishlist)) {
-            $this->wishlist[] = $wishlist;
-        }
-
-        return $this;
-    }
-
-    public function removeWishlist(Customer $wishlist): self
-    {
-        if ($this->wishlist->contains($wishlist)) {
-            $this->wishlist->removeElement($wishlist);
-        }
-
-        return $this;
-    }
-
-    public function getPriceWeight(): ?string
-    {
-        return $this->price_weight;
-    }
-
-    public function setPriceWeight(?string $price_weight): self
-    {
-        $this->price_weight = $price_weight;
+        $this->Category = $Category;
 
         return $this;
     }
