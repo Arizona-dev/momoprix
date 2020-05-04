@@ -40,8 +40,12 @@
                         </div>
                     </div>
                     <div class="ht-right">
+                    {% if app.user %}
+                        <a href="{{ path('logout') }}" class="login-panel"><i class="fa fa-user"></i>Se déconnecter</a>
+                    {% else %}
                         <a href="/register" class="login-panel"><i class="fa fa-user"></i>Créer un compte</a>
                         <a href="/login" class="login-panel"><i class="fa fa-user"></i>Se connecter</a>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -64,6 +68,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if items is defined %}
                         <div class="col-lg-3 text-right col-md-3">
                             <ul class="nav-right">
                                 <li class="heart-icon">
@@ -73,52 +78,89 @@
                                     </a>
                                 </li>
                                 <li class="cart-icon">
-                                    <a href="#">
+                                
+                                {% if items | length > 0  %}
+
+                                {% set itemsquantity = 0 %}
+
+                                {% for item in items %}
+                                    {% set itemsquantity = itemsquantity + (1*item.quantity) %}
+                                {% endfor %}
+                                    <a href="{{ path('cart_index') }}">
                                         <i class="icon_bag_alt"></i>
-                                        <span>3</span>
+                                        <span>{{ itemsquantity }}</span>
                                     </a>
-                                    <div class="cart-hover">
-                                        <div class="select-items">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="si-pic"><img src="/img/select-product-1.jpg" alt=""></td>
-                                                        <td class="si-text">
-                                                            <div class="product-selected">
-                                                                <p>60.00 € x 1</p>
-                                                                <h6>Kabino Bedside Table</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="si-close">
-                                                            <i class="ti-close"></i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="si-pic"><img src="/img/select-product-2.jpg" alt=""></td>
-                                                        <td class="si-text">
-                                                            <div class="product-selected">
-                                                                <p>60.00 € x 1</p>
-                                                                <h6>Kabino Bedside Table</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td class="si-close">
-                                                            <i class="ti-close"></i>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="cart-hover">
+                                            <div class="select-items">
+                                                <table>
+                                                    <thead>
+                                                        {% for item in items %}
+                                                            <tr>
+                                                                <td class="si-pic">
+                                                                    <a href="{{ path('product.show', {id: item.product[0].id, slug: item.product[0].slug }) }}">
+                                                                        <img src="/img/products/{{ item.product[0].imageUrl }}" alt="">
+                                                                    </a>
+                                                                </td>
+                                                                <td class="si-text">
+                                                                    <div class="product-selected">
+                                                                        <p>{{ item.product[0].price }} € x {{ item.quantity}}</p>
+                                                                        <a href="{{ path('product.show', {id: item.product[0].id, slug: item.product[0].slug }) }}">
+                                                                            <h6>{{ item.product[0].name }}</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="si-close">
+                                                                    <a href="{{ path('cart_remove', {'id': item.product[0].id}) }}">
+                                                                        <i class="ti-close"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="select-total">
+                                                <span>total:</span>
+                                                <h5>{{ total }} €</h5>
+                                            </div>
+                                            <div class="select-button">
+                                                <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
+                                                <a href="#" class="primary-btn checkout-btn">COMMANDER</a>
+                                            </div>
                                         </div>
-                                        <div class="select-total">
-                                            <span>total:</span>
-                                            <h5>120.00 €</h5>
-                                        </div>
-                                        <div class="select-button">
-                                            <a href="#" class="primary-btn view-card">VOIR LE PANIER</a>
-                                            <a href="#" class="primary-btn checkout-btn">COMMANDER</a>
-                                        </div>
-                                    </div>
                                 </li>
-                                <li class="cart-price">120.00 €</li>
+                                <li class="cart-price">{{ total }} €</li>
+                                    {% else %}
+                                    <a href="{{ path('cart_index') }}">
+                                        <i class="icon_bag_alt"></i>
+                                        <span>0</span>
+                                    </a>
+                                        <div class="cart-hover">
+                                            <div class="select-items">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="si-text">
+                                                                <div class="product-selected">
+                                                                    <h6>Surprise, c'est vide ! </h6>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="select-total">
+                                                <span>total:</span>
+                                                <h5>0.00 €</h5>
+                                            </div>
+                                            <div class="select-button">
+                                                <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
+                                            </div>
+                                        </div>
+                                </li>
+                                <li class="cart-price">0.00 €</li>
+                                {% endif %}
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

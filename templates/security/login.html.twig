@@ -29,11 +29,11 @@
                                 <p>{{ error.messageKey | trans(error.messagedata, 'security')}}</p>
                             </div>
                         {% endif %}
-                        <div class="form-group">
+                        <div class="group-input">
                             <label for="username">Nom d'utilisateur</label>
                             <input id="username" type="text" name="_username" class="form-control" value="{{ last_username }}">
                         </div>
-                        <div class="form-group">
+                        <div class="group-input">
                             <label for="password">Mot de passe</label>
                             <input id="password" type="password" name="_password" class="form-control">
                         </div>
@@ -46,10 +46,12 @@
                                     <input type="checkbox" id="save-pass">
                                     <span class="checkmark"></span>
                                 </label>
-                                <button type="submit" class="btn btn-primary" value="login">Se connecter</button>
                                 <a href="#" class="forget-pass">Mot de passe oublié</a>
                             </div>
-                        </div>
+                        </div></br>
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-primary" value="login">Se connecter</button>
+                        </div></br>
                         </form>
                         <div class="switch-login">
                             <a href="/register" class="or-login">Ou créez un compte</a>
