@@ -68,6 +68,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% if items is defined %}
                         <div class="col-lg-3 text-right col-md-3">
                             <ul class="nav-right">
                                 <li class="heart-icon">
@@ -77,10 +78,17 @@
                                     </a>
                                 </li>
                                 <li class="cart-icon">
-                                {% if items | length > 0 %}
+                                
+                                {% if items | length > 0  %}
+
+                                {% set itemsquantity = 0 %}
+
+                                {% for item in items %}
+                                    {% set itemsquantity = itemsquantity + (1*item.quantity) %}
+                                {% endfor %}
                                     <a href="{{ path('cart_index') }}">
                                         <i class="icon_bag_alt"></i>
-                                        <span></span>
+                                        <span>{{ itemsquantity }}</span>
                                     </a>
                                         <div class="cart-hover">
                                             <div class="select-items">
@@ -111,7 +119,6 @@
                                                     </thead>
                                                 </table>
                                             </div>
-                                            
                                             <div class="select-total">
                                                 <span>total:</span>
                                                 <h5>{{ total }} €</h5>
@@ -152,6 +159,7 @@
                                         </div>
                                 </li>
                                 <li class="cart-price">0.00 €</li>
+                                {% endif %}
                                 {% endif %}
                             </ul>
                         </div>

@@ -4,9 +4,11 @@
 
 {% block body %}
     <div class="container mt-4">
-        </br>
         <h2>Gérer les produits</h2>
-        </br>
+        <div class="float-right mb-5">
+            <a href="{{ path('admin.product.new') }}" class="btn btn-primary">Ajouter un nouveau produit</a>
+        </div>
+        
 
         {% for message in app.flashes('succes') %}
             <div class="alert alert-success">
@@ -38,9 +40,7 @@
             </tbody>
         </table></br>
 
-        <div class="text-right">
-            <a href="{{ path('admin.product.new') }}" class="btn btn-primary">Ajouter un nouveau produit</a>
-        </div></br></br>
+        </br></br>
 
     </div>
 

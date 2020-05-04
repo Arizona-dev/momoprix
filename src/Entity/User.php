@@ -27,6 +27,13 @@ class User implements UserInterface,\Serializable
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $role;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +93,19 @@ class User implements UserInterface,\Serializable
 
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
+        return array($this->getRole());
+        //return array('ROLE_ADMIN');
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
     }
 }
