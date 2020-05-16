@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
-class Customer
+class Customer implements UserInterface,\Serializable
 {
     /**
      * @ORM\Id()
@@ -17,6 +18,11 @@ class Customer
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -34,7 +40,7 @@ class Customer
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=80)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
@@ -58,6 +64,11 @@ class Customer
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $role;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -66,6 +77,11 @@ class Customer
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     public function getFirstname(): ?string
@@ -179,6 +195,51 @@ class Customer
                 $order->setCustomerId(null);
             }
         }
+
+        return $this;
+    }
+    //Authentification
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getRoles()
+    {
+        return array($this->getRole());
+        //return array('ROLE_USER');
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }
