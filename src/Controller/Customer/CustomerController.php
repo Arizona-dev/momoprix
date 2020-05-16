@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\User;
+namespace App\Controller\Customer;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +11,7 @@ class CustomerController extends AbstractController {
      */
     public function profile()
     {
-        return $this->render('/user/index.html.twig');
+        return $this->render('/customer/index.html.twig');
     }
 
 }

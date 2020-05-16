@@ -19,6 +19,7 @@ class AuthController extends AbstractController
         return $this->render('/login.html.twig');
     }
 
+    //******************** FINIR LE REGISTER **********************//
 
     // Register
     /**
@@ -31,7 +32,7 @@ class AuthController extends AbstractController
         $this->customerRepository = $customerRepository;
     }
 
-
+    
     /**
      * @Route("/register", name="register")
      * @param Request $request
