@@ -1,24 +1,34 @@
 <?php
 namespace App\Controller\Auth;
 
-use App\Repository\UserRepository;
+use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class RegistrationController extends AbstractController
+class AuthController extends AbstractController
 {
-
+    // Login
     /**
-     * @var UserRepository
+     * @Route("/login", name="login")
      */
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function login()
     {
-        $this->userRepository = $userRepository;
+        return $this->render('/login.html.twig');
+    }
+
+
+    // Register
+    /**
+     * @var CustomerRepository
+     */
+    private $customerRepository;
+
+    public function __construct(CustomerRepository $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
     }
 
 
@@ -31,7 +41,7 @@ class RegistrationController extends AbstractController
         $email = $request->get('email');
         $password = $request->get('password');
 
-        $user = $this->userRepository->findOneBy([
+        $user = $this->customerRepository->findOneBy([
             'email' => $email,
         ]);
 
