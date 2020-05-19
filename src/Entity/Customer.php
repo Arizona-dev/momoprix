@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -20,11 +21,6 @@ class Customer implements UserInterface,\Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
-     */
-    private $username;
-
-    /**
      * @ORM\Column(type="string", length=60)
      */
     private $firstname;
@@ -35,14 +31,20 @@ class Customer implements UserInterface,\Serializable
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @ORM\Column(type="string", length=70, unique=true)
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne correspondent pas")
+     */
+    public $confirmPassword;
 
     /**
      * @ORM\Column(type="date")
@@ -72,16 +74,14 @@ class Customer implements UserInterface,\Serializable
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
+
+    public function getUsername(){}
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
     }
 
     public function getFirstname(): ?string
@@ -144,24 +144,24 @@ class Customer implements UserInterface,\Serializable
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreatedAt(\DateTimeInterface $created): self
     {
         $this->createdAt = $created;
 
         return $this;
     }
 
-    public function getUpdated(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdated(\DateTimeInterface $updated): self
+    public function setUpdatedAt(\DateTimeInterface $updated): self
     {
         $this->updatedAt = $updated;
 

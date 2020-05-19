@@ -30,31 +30,38 @@
                             </div>
                         {% endif %}
                         <div class="group-input">
-                            <label for="username">Nom d'utilisateur</label>
-                            <input id="username" type="text" name="_username" class="form-control" value="{{ last_username }}">
+                            <label for="inputEmail">Nom d'utilisateur</label>
+                            <input id="inputEmail" type="email" name="email" class="form-control" value="{{ last_username }}">
                         </div>
                         <div class="group-input">
-                            <label for="password">Mot de passe</label>
-                            <input id="password" type="password" name="_password" class="form-control">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input id="inputPassword" type="password" name="password" class="form-control">
                         </div>
+
+                        <input type="hidden" name="_csrf_token"
+                            value="{{ csrf_token('authenticate') }}">
                         
 
                         <div class="group-input gi-check">
                             <div class="gi-more">
-                                <label for="save-pass">
-                                    Sauvegarder le mot de passe
-                                    <input type="checkbox" id="save-pass">
+                                <label for="remember_me">
+                                    Se souvenir de moi
+                                    <input type="checkbox" id="remember_me" name="_remember_me">
                                     <span class="checkmark"></span>
                                 </label>
                                 <a href="#" class="forget-pass">Mot de passe oublié</a>
                             </div>
                         </div></br>
+
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-primary" value="login">Se connecter</button>
+                            <button type="submit" class="btn btn-primary" value="login">
+                                Se connecter
+                            </button>
                         </div></br>
+
                         </form>
                         <div class="switch-login">
-                            <a href="/register" class="or-login">Ou créez un compte</a>
+                            <a href="/register" class="or-login">Ou créer un compte</a>
                         </div>
                     </div>
                 </div>
