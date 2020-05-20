@@ -7,11 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
-class Customer implements UserInterface,\Serializable
+class Customer implements UserInterface, \Serializable, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -77,7 +78,10 @@ class Customer implements UserInterface,\Serializable
         $this->createdAt = new \DateTime();
     }
 
-    public function getUsername(){}
+    public function getUsername()
+    {
+        return $this->firstname;
+    }
 
     public function getId(): ?int
     {
@@ -204,6 +208,7 @@ class Customer implements UserInterface,\Serializable
         return serialize([
             $this->id,
             $this->email,
+            $this->firstname,
             $this->password
         ]);
     }
@@ -213,6 +218,7 @@ class Customer implements UserInterface,\Serializable
         list(
             $this->id,
             $this->email,
+            $this->firstname,
             $this->password
         ) = unserialize($serialized, ['allowed_classes' => false]);
     }
@@ -242,5 +248,18 @@ class Customer implements UserInterface,\Serializable
         $this->role = $role;
 
         return $this;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->firstname !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }

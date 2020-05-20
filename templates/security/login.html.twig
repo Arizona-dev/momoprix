@@ -24,28 +24,33 @@
                     <div class="login-form">
                         <h2>Connectez-vous</h2>
                         <form form action="{{ path('security_login') }}" method="post">
-                        
-                        {% for label, messages in app.flashes(['success', 'danger']) %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ label }}">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
+
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
                         <div class="group-input">
-                            <label for="inputEmail">Nom d'utilisateur</label>
-                            <input id="inputEmail" type="email" name="_username" class="form-control" required value="{{ last_username }}">
+                            <label for="inputEmail" class="sr-only">Email</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
                         </div>
                         <div class="group-input">
-                            <label for="inputPassword">Mot de passe</label>
-                            <input id="inputPassword" type="password" name="_password" required class="form-control">
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Password" required>
                         </div>
 
                         <input type="hidden" name="_csrf_token"
                             value="{{ csrf_token('authenticate') }}">
                         
+{#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
 
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
                         <div class="group-input gi-check">
                             <div class="gi-more">
                                 <label for="remember_me">
