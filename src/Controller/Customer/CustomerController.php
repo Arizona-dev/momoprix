@@ -1,10 +1,21 @@
 <?php
 namespace App\Controller\Customer;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CustomerRepository;
+
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CustomerController extends AbstractController {
+
+    private $repository;
+
+    public function __construct(CustomerRepository $repository, Security $security)
+    {
+        $this->repository = $repository;
+        $this->security = $security;
+    }
 
     //Mon compte | modifier le profil
     /**
@@ -12,7 +23,16 @@ class CustomerController extends AbstractController {
      */
     public function profile()
     {
-        return $this->render('/customer/index.html.twig');
+        $user = $this->security->getUser();
+        $email = $user->getEmail();
+
+        return $this->render('/customer/index.html.twig', [
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
+            'email' => $user->getEmail(),
+            'number' => $user->getFirstname(),
+
+        ]);
     }
 
     // Mes commandes

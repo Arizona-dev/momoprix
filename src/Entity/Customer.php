@@ -48,9 +48,25 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
     public $confirmPassword;
 
     /**
+     * @ORM\Column(type="string", length=25)
+     * @Assert\Length(min="10", minMessage="Numéro de téléphone incorrect")
+     */
+    public $phone;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $dateOfBirth;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
+     */
+    private $orders;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $role;
 
     /**
      * @ORM\Column(type="datetime")
@@ -62,15 +78,7 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
      */
     private $updatedAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
-     */
-    private $orders;
-
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $role;
+    
 
     public function __construct()
     {
@@ -144,6 +152,18 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
     public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

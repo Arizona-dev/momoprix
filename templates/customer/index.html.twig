@@ -8,11 +8,11 @@
 	<div class="row">
 		<div class="col-md-3 ">
 		     <div class="list-group ">
-              <a href="#" class="list-group-item list-group-item-action active">Mon compte</a>
-              <a href="#" class="list-group-item list-group-item-action">Mes Commandes</a>
-              <a href="#" class="list-group-item list-group-item-action">Mes Factures</a>
-              <a href="#" class="list-group-item list-group-item-action">Mes Adresses</a>
-              <a href="#" class="list-group-item list-group-item-action">Moyens de Paiements</a>
+              <a href="/profile" class="list-group-item list-group-item-action active">Mon compte</a>
+              <a href="/profile/orders" class="list-group-item list-group-item-action">Mes Commandes</a>
+              <a href="/profile/receipts" class="list-group-item list-group-item-action">Mes Factures</a>
+              <a href="/profile/address" class="list-group-item list-group-item-action">Mes Adresses</a>
+              <a href="/profile/payments" class="list-group-item list-group-item-action">Moyens de Paiements</a>
           </div>
 		</div>
 		<div class="col-md-9">
@@ -28,33 +28,27 @@
 		                <div class="col-md-12">
 		                    <form>
                               <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Identifiant*</label> 
-                                <div class="col-8">
-                                  <input id="username" name="username" placeholder="Identifiant" class="form-control here" required="required" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
                                 <label for="firstname" class="col-4 col-form-label">Prénom</label> 
                                 <div class="col-8">
-                                  <input id="firstname" name="firstname" placeholder="Prénom" class="form-control here" type="text">
+                                  <input id="firstname" name="firstname" placeholder="{{ firstname }}" class="form-control here" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Nom</label> 
+                                <label for="lastname" class="col-4 col-form-label">Nom</label>
                                 <div class="col-8">
-                                  <input id="lastname" name="lastname" placeholder="Nom" class="form-control here" type="text">
+                                  <input id="lastname" name="lastname" placeholder="{{ lastname }}" class="form-control here" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="email" class="col-4 col-form-label">Email*</label> 
                                 <div class="col-8">
-                                  <input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
+                                  <input id="email" name="email" placeholder="{{ email }}" class="form-control here" required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="phone" class="col-4 col-form-label">Numéro de téléphone</label> 
                                 <div class="col-8">
-                                  <input id="phone" name="phone" placeholder="06xxxxxxxx" class="form-control here" type="text">
+                                  <input id="phone" name="phone" placeholder="{{ number }}" class="form-control here" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
