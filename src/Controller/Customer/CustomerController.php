@@ -1,37 +1,56 @@
 <?php
 namespace App\Controller\Customer;
 
-use App\Repository\CustomerRepository;
+use App\Form\ProfileType;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CustomerController extends AbstractController {
 
-    private $repository;
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $manager;
 
-    public function __construct(CustomerRepository $repository, Security $security)
+    public function __construct(Security $security, EntityManagerInterface $manager)
     {
-        $this->repository = $repository;
         $this->security = $security;
+        $this->manager = $manager;
     }
 
     //Mon compte | modifier le profil
     /**
      * @Route("/profile", name="profile")
      */
-    public function profile()
+    public function profile(Request $request)
     {
         $user = $this->security->getUser();
-        $email = $user->getEmail();
+        $user->setUpdatedAt(new \DateTime());
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $plainPassword = $form->get('password')->getData();
+            dd($plainPassword);
+
+
+            $this->manager->persist($user);
+            $this->manager->flush();
+            $this->addFlash('succes', 'Profil modifié avec succès!');
+            return $this->redirectToRoute('profile');
+        }
 
         return $this->render('/customer/index.html.twig', [
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
-            'number' => $user->getFirstname(),
-
+            'number' => $user->getPhone(),
+            'form' => $form->createView()
         ]);
     }
 
