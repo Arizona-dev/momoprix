@@ -48,8 +48,7 @@ class CartService {
                 'quantity' => $quantity
             ];
         }
-        dump($panierWithData);
-
+        
         return $panierWithData;
     }
 

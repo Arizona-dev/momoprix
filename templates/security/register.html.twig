@@ -23,33 +23,28 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
                         <h2>Créer un compte</h2>
-                        <form action="" method="POST">
-                            <div class="group-input">
-                                <label for="lastname">Nom *</label>
-                                <input name="lastname" type="text" id="lastname">
-                            </div>
-                            <div class="group-input">
-                                <label for="firstname">Prénom *</label>
-                                <input name="firstname" type="text" id="firstname">
-                            </div>
-                            <div class="group-input">
-                                <label for="email">Adresse email *</label>
-                                <input name="email" type="text" id="email">
-                            </div>
-                            <div class="group-input">
-                                <label for="password">Mot de passe *</label>
-                                <input name="password" type="password" id="password">
-                            </div>
-                            <div class="group-input">
-                                <label for="password2">Re-taper le Mot de passe *</label>
-                                <input name="password2" type="password" id="password2">
-                            </div>
-                            <div class="group-input">
-                                <label for="pass">Date de naissance *</label>
-                                <input name="birthdate" type="date" id="birthdate">
-                            </div>
+                        
+                        {% for label, messages in app.flashes(['success', 'danger']) %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {{ form_start(form) }}
+
+                            {{ form_row(form.firstname, {'label': 'Firstname', 'attr':{'placeholder': 'Firstname'}}) }}
+                            {{ form_row(form.lastname, {'label': 'Lastname', 'attr':{'placeholder': 'Lastname'}}) }}
+                            {{ form_row(form.email, {'label': 'Email', 'attr':{'placeholder': 'Email'}}) }}
+                            {{ form_row(form.password, {'label': 'Password', 'attr':{'placeholder': 'Password'}}) }}
+                            {{ form_row(form.confirmPassword, {'label': 'Confirm Password', 'attr':{'placeholder': 'Confirm Password'}}) }}
+                            {{ form_row(form.dateOfBirth, {'label': 'Birthdate', 'attr':{'placeholder': 'Birthdate'}}) }}
+
                             <button type="submit" class="site-btn login-btn">S'inscrire</button>
-                        </form>
+
+                        {{ form_end(form) }}
+
                         <div class="switch-login">
                             <a href="/login" class="or-login">Ou se connecter</a>
                         </div>

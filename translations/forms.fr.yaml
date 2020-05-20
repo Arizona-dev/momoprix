@@ -7,3 +7,13 @@ Specifications: Spécifications
 Stock: Quantité en stock
 Image url: Url de l'image
 Category: Catégorie
+Username: Nom d'utilisateur
+Firstname: Prénom
+Lastname: Nom
+Email: Email
+Password: Mot de passe
+Confirm Password: Confirmer le mot de passe
+Birthdate: Date de naissance
+Day: Jour
+Month: Mois
+Year: Année

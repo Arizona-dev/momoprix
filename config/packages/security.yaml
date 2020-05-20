@@ -3,8 +3,8 @@ security:
     providers:
         from_database:
             entity:
-                class: App\Entity\User
-                property: username
+                class: App\Entity\Customer
+                property: email
 
     firewalls:
         dev:
@@ -15,9 +15,16 @@ security:
             logout:
                 path: /logout
                 target: /
+            
+            remember_me:
+                secret:   '%kernel.secret%'
+                name:     'rmberme'
+                lifetime: 2592000 # 30 days in seconds
+                path:     /
 
             form_login:
-                check_path: login
+                login_path: security_login
+                check_path: security_login
 
 
 
@@ -36,7 +43,7 @@ security:
         #- { path: ^/profile, roles: ROLE_USER }
 
     encoders:
-        App\Entity\User:
+        App\Entity\Customer:
             algorithm: bcrypt
             cost: 12
 
