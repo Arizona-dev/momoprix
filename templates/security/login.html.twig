@@ -23,19 +23,23 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
                         <h2>Connectez-vous</h2>
-                        <form form action="{{ path('login') }}" method="post">
-                        {% if error %}
-                            <div class="alert alert-danger">
-                                <p>{{ error.messageKey | trans(error.messagedata, 'security')}}</p>
-                            </div>
-                        {% endif %}
+                        <form form action="{{ path('security_login') }}" method="post">
+                        
+                        {% for label, messages in app.flashes(['success', 'danger']) %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
                         <div class="group-input">
                             <label for="inputEmail">Nom d'utilisateur</label>
-                            <input id="inputEmail" type="email" name="email" class="form-control" value="{{ last_username }}">
+                            <input id="inputEmail" type="email" name="_username" class="form-control" required value="{{ last_username }}">
                         </div>
                         <div class="group-input">
                             <label for="inputPassword">Mot de passe</label>
-                            <input id="inputPassword" type="password" name="password" class="form-control">
+                            <input id="inputPassword" type="password" name="_password" required class="form-control">
                         </div>
 
                         <input type="hidden" name="_csrf_token"
@@ -54,7 +58,7 @@
                         </div></br>
 
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-primary" value="login">
+                            <button type="submit" class="btn btn-primary">
                                 Se connecter
                             </button>
                         </div></br>

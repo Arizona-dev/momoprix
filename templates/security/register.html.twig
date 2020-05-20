@@ -23,6 +23,14 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
                         <h2>Créer un compte</h2>
+                        
+                        {% for label, messages in app.flashes(['success', 'danger']) %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
 
                         {{ form_start(form) }}
 
