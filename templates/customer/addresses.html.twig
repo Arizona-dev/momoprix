@@ -18,63 +18,76 @@
 		<div class="col-md-9">
 		    <div class="card">
 		        <div class="card-body">
+                <div class="row">
+		                <div class="col-md-12">
+		                    <h4>Vos adresses</h4>
+		                    <hr>
+		                </div>
+		            </div>
+                    <div class="row">
+		                <div class="col-md-12">
+                            {% for address in address_list %}
+                                <div class="col-md-12">
+                                    {{ address.type }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.address }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.cp }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.city }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.indoors }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.digicode }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.floor }}
+                                    </div>
+                                <div class="col-md-12">
+                                    {{ address.elevator }}
+                                </div>
+                            {% endfor %}
+                        </div>
+		            </div>
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <h4>Modifier votre compte</h4>
+		                    <h4>Ajouter une adresse</h4>
 		                    <hr>
 		                </div>
 		            </div>
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <form>
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Identifiant*</label> 
-                                <div class="col-8">
-                                  <input id="username" name="username" placeholder="Identifiant" class="form-control here" required="required" type="text">
+                            {% for label, messages in app.flashes(['success', 'danger']) %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {{ form_start(address_form) }}
+
+                                {{ form_row(address_form.type, {'label': 'Type', 'attr':{'placeholder': 'Type_ph'}}) }}
+                                {{ form_row(address_form.address, {'label': 'Address', 'attr':{'placeholder': 'Address_ph'}}) }}
+                                {{ form_row(address_form.cp, {'label': 'Postal Code', 'attr':{'placeholder': 'Postal_ph'}}) }}
+                                {{ form_row(address_form.city, {'label': 'City', 'attr':{'placeholder': 'City_ph'}}) }}
+                                {{ form_row(address_form.indoors, {'label': 'Indoors', 'attr':{'placeholder': 'Indoors_ph'}}) }}
+                                {{ form_row(address_form.digicode, {'label': 'Digicode', 'attr':{'placeholder': 'Digicode_ph'}}) }}
+                                {{ form_row(address_form.floor, {'label': 'Floor', 'attr':{'placeholder': 'Floor_ph'}}) }}
+                                {{ form_row(address_form.elevator, {'label': 'Elevator', 'attr':{'placeholder': 'Elevator_ph'}}) }}
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                    <button name="submit" type="submit" class="btn btn-primary">Ajouter cette adresse</button>
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="firstname" class="col-4 col-form-label">Prénom</label> 
-                                <div class="col-8">
-                                  <input id="firstname" name="firstname" placeholder="Prénom" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Nom</label> 
-                                <div class="col-8">
-                                  <input id="lastname" name="lastname" placeholder="Nom" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="email" class="col-4 col-form-label">Email*</label> 
-                                <div class="col-8">
-                                  <input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="phone" class="col-4 col-form-label">Numéro de téléphone</label> 
-                                <div class="col-8">
-                                  <input id="phone" name="phone" placeholder="06xxxxxxxx" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="newpass" class="col-4 col-form-label">Nouveau mot de passe</label> 
-                                <div class="col-8">
-                                  <input id="newpass" name="newpass" placeholder="Nouveau mot de passe" class="form-control here" type="text">
-                                </div>
-                              </div> 
-                              <div class="form-group row">
-                                <label for="newpassconf" class="col-4 col-form-label">Confirmer le mot de passe</label> 
-                                <div class="col-8">
-                                  <input id="newpassconf" name="newpassconf" placeholder="Retaper le mot de passe" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                  <button name="submit" type="submit" class="btn btn-primary">Mettre à jour</button>
-                                </div>
-                              </div>
-                            </form>
+
+                            {{ form_end(address_form) }}
 		                </div>
 		            </div>
 		        </div>

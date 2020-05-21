@@ -18,3 +18,26 @@ Day: Jour
 Month: Mois
 Year: Année
 Phone: Numéro de téléphone
+Type: Type de logement
+Type_ph: ''
+Address: Adresse
+Address_ph: Entrez votre adresse
+Postal: Code Postal
+Postal_ph: ''
+Postal Code: Code Postal
+City: Ville
+City_ph: Ville
+Indoors: Numéro d'appartement
+Indoors_ph: Entrez le numéro de votre Appartement
+Digicode: Interphone
+Digicode_ph: Code d'accès, Interphone
+Floor: Etage
+Floor_ph: Numéro de votre étage
+Elevator: Ascenseur
+Elevator_ph: ''
+Choose your logement type: Choisissez votre type de logement
+Appartement: Appartement
+House: Maison
+Does your housing have an elevator?: Votre logement dispose t'il d'un ascenseur?
+Yes_elevator: Ascenseur disponible
+No_elevator: Pas d\'ascenseur

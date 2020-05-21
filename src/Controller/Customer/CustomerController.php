@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller\Customer;
 
+use App\Form\AddressType;
 use App\Form\ProfileType;
+use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +24,17 @@ class CustomerController extends AbstractController {
      */
     protected $customerRepository;
 
-    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository)
+    /**
+     * @var AddressRepository
+     */
+    protected $addressRepository;
+
+    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository, AddressRepository $addressRepository)
     {
         $this->security = $security;
         $this->manager = $manager;
         $this->customerRepository = $customerRepository;
+        $this->addressRepository = $addressRepository;
     }
 
     //Mon compte | modifier le profil
@@ -39,18 +47,18 @@ class CustomerController extends AbstractController {
         $user->setUpdatedAt(new \DateTime());
         $oldPass = $user->getPassword();
 
-        $form = $this->createForm(ProfileType::class, $user);
-        $form->handleRequest($request);
+        $profile_form = $this->createForm(ProfileType::class, $user);
+        $profile_form->handleRequest($request);
         // TODO
         // When form is Submitted and password field is empty there is an error : expected type "string", "null" given "password"
         // Also add empty fields checks
-        if ($form->isSubmitted()) 
+        if ($profile_form->isSubmitted()) 
         {
-            $plainPassword = $form->get('password')->getData();
+            $plainPassword = $profile_form->get('password')->getData();
 
             if ($plainPassword != null)  
             {
-                if($form->get('password')->getData() === $form->get('confirmPassword')->getData()) 
+                if($profile_form->get('password')->getData() === $profile_form->get('confirmPassword')->getData()) 
                 {
                     $hash = $encoder->encodePassword($user, $plainPassword);
                     $user->setPassword($hash);
@@ -62,14 +70,14 @@ class CustomerController extends AbstractController {
                         'lastname' => $user->getLastname(),
                         'email' => $user->getEmail(),
                         'number' => $user->getPhone(),
-                        'form' => $form->createView()
+                        'profile_form' => $profile_form->createView()
                     ]);
                 }
                 
             } else 
             {
-                $form->get('password')->setData($oldPass);
-                $form->get('confirmPassword')->setData($oldPass);
+                $profile_form->get('password')->setData($oldPass);
+                $profile_form->get('confirmPassword')->setData($oldPass);
             }
             
             $this->manager->persist($user);
@@ -80,7 +88,7 @@ class CustomerController extends AbstractController {
                 'lastname' => $user->getLastname(),
                 'email' => $user->getEmail(),
                 'number' => $user->getPhone(),
-                'form' => $form->createView()
+                'profile_form' => $profile_form->createView()
             ]);
         }
 
@@ -89,7 +97,7 @@ class CustomerController extends AbstractController {
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
             'number' => $user->getPhone(),
-            'form' => $form->createView()
+            'profile_form' => $profile_form->createView()
         ]);
     }
 
@@ -115,9 +123,18 @@ class CustomerController extends AbstractController {
     /**
      * @Route("/profile/address", name="profile_addresses")
      */
-    public function addresses()
+    public function addresses(Request $request)
     {
-        return $this->render('/customer/addresses.html.twig');
+        $user = $this->security->getUser();
+        $getAddress = $this->addressRepository->findAllAddressById($user->getId());
+
+        $address_form = $this->createForm(AddressType::class);
+        $address_form->handleRequest($request);
+
+        return $this->render('/customer/addresses.html.twig', [
+            'address_form' => $address_form->createView(),
+            'address_list' => $getAddress
+        ]);
     }
 
     //Moyens de paiements

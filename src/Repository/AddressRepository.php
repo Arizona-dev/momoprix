@@ -19,6 +19,20 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
+
+
+    public function findAllAddressById($value): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->addSelect('c')
+            ->leftJoin('p.customer','c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Address[] Returns an array of Address objects
     //  */
