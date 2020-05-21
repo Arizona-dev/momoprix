@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Customer;
 
+use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\ProfileType;
 use App\Repository\AddressRepository;
@@ -125,11 +126,26 @@ class CustomerController extends AbstractController {
      */
     public function addresses(Request $request)
     {
+        $address = new Address();
         $user = $this->security->getUser();
+        $address->setCustomerId($user);
+        
         $getAddress = $this->addressRepository->findAllAddressById($user->getId());
 
-        $address_form = $this->createForm(AddressType::class);
+        $address_form = $this->createForm(AddressType::class, $address);
+
         $address_form->handleRequest($request);
+        
+        if ($address_form->isSubmitted()) 
+        {
+            $this->manager->persist($address);
+            $this->manager->flush();
+            $this->addFlash('succes', 'Adresse ajouté avec succès!');
+            return $this->render('/customer/addresses.html.twig', [
+            'address_form' => $address_form->createView(),
+            'address_list' => $getAddress
+            ]);
+        }
 
         return $this->render('/customer/addresses.html.twig', [
             'address_form' => $address_form->createView(),
