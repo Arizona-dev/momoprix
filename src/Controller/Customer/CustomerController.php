@@ -4,6 +4,7 @@ namespace App\Controller\Customer;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\ProfileType;
+use App\Service\Cart\CartService;
 use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -31,12 +32,18 @@ class CustomerController extends AbstractController {
      */
     protected $addressRepository;
 
-    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository, AddressRepository $addressRepository)
+    /**
+     * @var CartService
+     */
+    protected $cartService;
+
+    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository, AddressRepository $addressRepository, CartService $cartService)
     {
         $this->security = $security;
         $this->manager = $manager;
         $this->customerRepository = $customerRepository;
         $this->addressRepository = $addressRepository;
+        $this->cartService = $cartService;
     }
 
     //Mon compte | modifier le profil
@@ -69,7 +76,9 @@ class CustomerController extends AbstractController {
                         'lastname' => $user->getLastname(),
                         'email' => $user->getEmail(),
                         'number' => $user->getPhone(),
-                        'profile_form' => $profile_form->createView()
+                        'profile_form' => $profile_form->createView(),
+                        'items' => $this->cartService->getFullCart(),
+                        'total' => $this->cartService->getTotal()
                     ]);
                 }
             }
@@ -82,7 +91,9 @@ class CustomerController extends AbstractController {
                 'lastname' => $user->getLastname(),
                 'email' => $user->getEmail(),
                 'number' => $user->getPhone(),
-                'profile_form' => $profile_form->createView()
+                'profile_form' => $profile_form->createView(),
+                'items' => $this->cartService->getFullCart(),
+                'total' => $this->cartService->getTotal()
             ]);
         }
 
@@ -91,7 +102,9 @@ class CustomerController extends AbstractController {
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
             'number' => $user->getPhone(),
-            'profile_form' => $profile_form->createView()
+            'profile_form' => $profile_form->createView(),
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
         ]);
     }
 
@@ -136,13 +149,17 @@ class CustomerController extends AbstractController {
             $this->addFlash('succes', 'Adresse ajouté avec succès!');
             return $this->render('/customer/addresses.html.twig', [
             'address_form' => $address_form->createView(),
-            'address_list' => $getAddress
+            'address_list' => $getAddress,
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
             ]);
         }
 
         return $this->render('/customer/addresses.html.twig', [
             'address_form' => $address_form->createView(),
-            'address_list' => $getAddress
+            'address_list' => $getAddress,
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
         ]);
     }
 
