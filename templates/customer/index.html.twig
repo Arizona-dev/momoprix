@@ -26,30 +26,30 @@
 		            </div>
 		            <div class="row">
 		                <div class="col-md-12">
-                    {% for label, messages in app.flashes(['success', 'danger']) %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ label }}">
-                                    {{ message }}
-                                </div>
+                            {% for label, messages in app.flashes(['success', 'danger']) %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
 
-                        {{ form_start(profile_form) }}
+                            {{ form_start(profile_form) }}
 
-                            {{ form_row(profile_form.firstname, {'label': 'Firstname', 'attr':{'placeholder': 'Firstname'}}) }}
-                            {{ form_row(profile_form.lastname, {'label': 'Lastname', 'attr':{'placeholder': 'Lastname'}}) }}
-                            {{ form_row(profile_form.email, {'label': 'Email', 'attr':{'placeholder': 'Email'}}) }}
-                            {{ form_row(profile_form.phone, {'label': 'Phone', 'attr':{'placeholder': 'Phone'}}) }}
-                            {{ form_row(profile_form.password, {'label': 'Password', 'attr':{'placeholder': 'Password'}}) }}
-                            {{ form_row(profile_form.confirmPassword, {'label': 'Confirm Password', 'attr':{'placeholder': 'Confirm Password'}}) }}
+                                {{ form_row(profile_form.firstname, {'label': 'Firstname', 'attr':{'placeholder': 'Firstname'}}) }}
+                                {{ form_row(profile_form.lastname, {'label': 'Lastname', 'attr':{'placeholder': 'Lastname'}}) }}
+                                {{ form_row(profile_form.email, {'label': 'Email', 'attr':{'placeholder': 'Email'}}) }}
+                                {{ form_row(profile_form.phone, {'label': 'Phone', 'attr':{'placeholder': 'Phone'}}) }}
+                                {{ form_row(profile_form.password, {'label': 'Password', 'attr':{'placeholder': 'Password'}}) }}
+                                {{ form_row(profile_form.confirmPassword, {'label': 'Confirm Password', 'attr':{'placeholder': 'Confirm Password'}}) }}
 
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                  <button name="submit" type="submit" class="btn btn-primary">Mettre à jour</button>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                    <button name="submit" type="submit" class="btn btn-primary">Mettre à jour</button>
+                                    </div>
                                 </div>
-                            </div>
 
-                        {{ form_end(profile_form) }}
+                            {{ form_end(profile_form) }}
 		                </div>
 		            </div>
 		        </div>

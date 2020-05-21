@@ -1,10 +1,12 @@
 <?php
 namespace App\Controller\Customer;
 
+use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\ProfileType;
 use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -45,13 +47,10 @@ class CustomerController extends AbstractController {
     {
         $user = $this->security->getUser();
         $user->setUpdatedAt(new \DateTime());
-        $oldPass = $user->getPassword();
-
+        
         $profile_form = $this->createForm(ProfileType::class, $user);
         $profile_form->handleRequest($request);
-        // TODO
-        // When form is Submitted and password field is empty there is an error : expected type "string", "null" given "password"
-        // Also add empty fields checks
+
         if ($profile_form->isSubmitted()) 
         {
             $plainPassword = $profile_form->get('password')->getData();
@@ -73,11 +72,6 @@ class CustomerController extends AbstractController {
                         'profile_form' => $profile_form->createView()
                     ]);
                 }
-                
-            } else 
-            {
-                $profile_form->get('password')->setData($oldPass);
-                $profile_form->get('confirmPassword')->setData($oldPass);
             }
             
             $this->manager->persist($user);
@@ -121,20 +115,50 @@ class CustomerController extends AbstractController {
 
     //Mes adresses
     /**
-     * @Route("/profile/address", name="profile_addresses")
+     * @Route("/profile/address", name="add_address")
      */
-    public function addresses(Request $request)
+    public function addAddress(Request $request)
     {
+        $address = new Address();
         $user = $this->security->getUser();
+        $address->setCustomerId($user);
+        
         $getAddress = $this->addressRepository->findAllAddressById($user->getId());
 
-        $address_form = $this->createForm(AddressType::class);
+        $address_form = $this->createForm(AddressType::class, $address);
+
         $address_form->handleRequest($request);
+        
+        if ($address_form->isSubmitted()) 
+        {
+            $this->manager->persist($address);
+            $this->manager->flush();
+            $this->addFlash('succes', 'Adresse ajouté avec succès!');
+            return $this->render('/customer/addresses.html.twig', [
+            'address_form' => $address_form->createView(),
+            'address_list' => $getAddress
+            ]);
+        }
 
         return $this->render('/customer/addresses.html.twig', [
             'address_form' => $address_form->createView(),
             'address_list' => $getAddress
         ]);
+    }
+
+    /**
+     * @Route("/profile/address/{id}", name="remove.address", methods="POST")
+     */
+    public function delete(Request $request, Address $address)
+    {
+        if ($this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('token'))) {
+            $this->manager->remove($address);
+            $this->manager->flush();
+            $this->addFlash('success_delete', 'Adresse supprimée avec succès');
+            
+        }
+
+        return $this->redirectToRoute('add_address');
     }
 
     //Moyens de paiements
