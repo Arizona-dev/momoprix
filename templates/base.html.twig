@@ -36,15 +36,16 @@
                         </div>
                         <div class="phone-service">
                             <i class=" fa fa-phone"></i>
-                            01.02.03.04.05
+                            01 02 03 04 05
                         </div>
                     </div>
                     <div class="ht-right">
-                    {% if app.user %}
-                        <a href="{{ path('logout') }}" class="login-panel"><i class="fa fa-user"></i>Se déconnecter</a>
-                    {% else %}
+                    {% if not app.user %}
                         <a href="/register" class="login-panel"><i class="fa fa-user"></i>Créer un compte</a>
                         <a href="/login" class="login-panel"><i class="fa fa-user"></i>Se connecter</a>
+                    {% else %}
+                        <a href="{{ path('logout') }}" class="login-panel"><i class="fa fa-sign-out"></i>Se déconnecter</a>
+                        <a href="{{ path('profile') }}" class="login-panel"><i class="fa fa-bars"></i>Mon compte</a>
                     {% endif %}
                     </div>
                 </div>

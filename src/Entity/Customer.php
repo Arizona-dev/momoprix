@@ -7,11 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
-class Customer implements UserInterface,\Serializable
+class Customer implements UserInterface, \Serializable, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -47,19 +48,15 @@ class Customer implements UserInterface,\Serializable
     public $confirmPassword;
 
     /**
+     * @ORM\Column(type="string", length=25)
+     * @Assert\Length(min="10", minMessage="Numéro de téléphone incorrect")
+     */
+    public $phone;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $dateOfBirth;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
@@ -71,13 +68,28 @@ class Customer implements UserInterface,\Serializable
      */
     private $role;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
-    public function getUsername(){}
+    public function getUsername()
+    {
+        return $this->firstname;
+    }
 
     public function getId(): ?int
     {
@@ -144,6 +156,18 @@ class Customer implements UserInterface,\Serializable
         return $this;
     }
 
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -204,6 +228,7 @@ class Customer implements UserInterface,\Serializable
         return serialize([
             $this->id,
             $this->email,
+            $this->firstname,
             $this->password
         ]);
     }
@@ -213,6 +238,7 @@ class Customer implements UserInterface,\Serializable
         list(
             $this->id,
             $this->email,
+            $this->firstname,
             $this->password
         ) = unserialize($serialized, ['allowed_classes' => false]);
     }
@@ -242,5 +268,18 @@ class Customer implements UserInterface,\Serializable
         $this->role = $role;
 
         return $this;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        if ($this->firstname !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }

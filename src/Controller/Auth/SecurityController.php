@@ -5,7 +5,7 @@ use App\Entity\Customer;
 use App\Form\RegistrationType;
 use App\Repository\CustomerRepository;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,10 +26,11 @@ class SecurityController extends AbstractController {
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response 
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         
         $error = $authenticationUtils->getLastAuthenticationError();
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
@@ -41,7 +42,7 @@ class SecurityController extends AbstractController {
     /**
      * @Route("/register", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder){
         $customer = new Customer();
 
         $customer->setCreatedAt(new \DateTime());
@@ -54,7 +55,7 @@ class SecurityController extends AbstractController {
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $checkEmail = $this->repository->findOneByEmail($customer->getEmail());
+            $checkEmail = $this->customerRepository->findOneByEmail($customer->getEmail());
 
             if($checkEmail != null) {
                 if($checkEmail['email'] === $customer->getEmail()){
@@ -80,6 +81,14 @@ class SecurityController extends AbstractController {
         return $this->render('security/register.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout()
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
 
