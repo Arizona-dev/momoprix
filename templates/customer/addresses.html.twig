@@ -24,6 +24,17 @@
                             <hr>
                         </div>
                     </div>
+                    <div class="row">
+		                <div class="col-md-12">
+                            {% for label, messages in app.flashes(['success_delete']) %}
+                                {% for message in messages %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
                     {% for address in address_list %}
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -70,8 +81,11 @@
                                 <p style="color: black">Pas d'ascenseur</p>
                             {% endif %}
                         </div>
-                        
                     </div>
+                    <form method="POST" action="{{ url('remove.address', {id: address.id}) }}" style="display: inline-block" onsubmit="return confirm('Supprimer cette adresse?')">
+                        <input type="hidden" name="token" value="{{ csrf_token('delete' ~ address.id) }}">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
                     <hr>
                     {% endfor %}
 		            <div class="row">

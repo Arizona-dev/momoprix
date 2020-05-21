@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -13,6 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class ProfileType extends AbstractType
 {
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -26,10 +32,12 @@ class ProfileType extends AbstractType
                 'required' => false
             ])
             ->add('password', PasswordType::class, [
-                'required' => false
+                'required' => false,
+                'empty_data' => $this->security->getUser()->getPassword()
             ])
             ->add('confirmPassword', PasswordType::class, [
-                'required' => false
+                'required' => false,
+                'empty_data' => $this->security->getUser()->getPassword()
             ])
             ->add('phone', TelType::class, [
                 'required' => false
