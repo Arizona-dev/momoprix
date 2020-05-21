@@ -27,9 +27,9 @@ class AddressType extends AbstractType
             ->add('lastname', TextType::class)
             ->add('type', ChoiceType::class, [
                 'choices'  => [
-                        'Choose your logement type' => [
-                            'Appartement' => 'Appartement',
-                            'House' => 'Maison',
+                        'AddressType' => [
+                            'Delivery' => 'Livraison',
+                            'Billing' => 'Facturation',
             ]]])
             ->add('address', TextType::class)
             ->add('cp', TextType::class)

@@ -80,12 +80,12 @@
                                 </li>
                                 <li class="cart-icon">
                                 
-                                {% if items | length > 1  %}
+                                {% if items | length > 0  %}
 
                                 {% set itemsquantity = 0 %}
 
                                 {% for item in items %}
-                                    {% set itemsquantity = itemsquantity + (1*item.quantity) %}
+                                    {% set itemsquantity = itemsquantity + item.quantity %}
                                 {% endfor %}
                                     <a href="{{ path('cart_index') }}">
                                         <i class="icon_bag_alt"></i>
