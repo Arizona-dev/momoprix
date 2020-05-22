@@ -1,15 +1,16 @@
 <?php
 namespace App\Controller\Cart;
 
-use App\Entity\Customer;
 use App\Entity\Order;
-use App\Repository\CustomerRepository;
-use App\Repository\OrderRepository;
+use App\Entity\Customer;
+use App\Form\CheckoutType;
 use App\Service\Cart\CartService;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\OrderRepository;
+use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
 {
@@ -30,13 +31,21 @@ class OrderController extends AbstractController
     /**
      * @Route("/order", name="order_index")
      */
-    public function orderIndex()
+    public function orderIndex(Request $request)
     {
-        $user = $this->security->getUser();
+        $checkout_form = $this->createForm(CheckoutType::class);
+        $checkout_form->handleRequest($request);
+        if($checkout_form->isSubmitted())
+        {
+            $this->manager->remove($this->order);
+            $this->manager->flush();
+            
+        }
+
         return $this->render('/checkout/checkout.html.twig', [
             'items' => $this->cartService->getFullCart(),
             'total' => $this->cartService->getTotal(),
-            'user_id' => $user->getUsername()
+            'checkout_form' => $checkout_form->createView()
         ]);
     }
 
@@ -45,13 +54,6 @@ class OrderController extends AbstractController
      */
     public function orderConfirm(Request $request)
     {
-        if ($this->isCsrfTokenValid('order_confirm' . $this->customer->getId(), $request->request->get('token'))) {
-            $this->manager->remove($this->order);
-            $this->manager->flush();
-            $this->addFlash('success_delete', 'Adresse supprimée avec succès');
-            
-        }
-
         $this->cartService->setFullCart();
 
         return $this->render('/checkout/order_complete.html.twig', [
