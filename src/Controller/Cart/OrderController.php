@@ -2,10 +2,11 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Order;
-use App\Entity\Customer;
+use App\Entity\Address;
 use App\Form\CheckoutType;
 use App\Service\Cart\CartService;
 use App\Repository\OrderRepository;
+use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -15,17 +16,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class OrderController extends AbstractController
 {
 
-    protected $customer;
-    protected $order;
-    protected $cartService;
-    protected $security;
+    private $customerRepository;
+    private $order;
+    private $cartService;
+    private $addressRepository;
     
-    public function __construct(CustomerRepository $customer, OrderRepository $order, CartService $cartService, Security $security)
+    public function __construct(CustomerRepository $customerRepository, OrderRepository $order, CartService $cartService, Security $security, AddressRepository $addressRepository)
     {
-        $this->customer = $customer;
+        $this->customerRepository = $customerRepository;
         $this->order = $order;
         $this->cartService = $cartService;
         $this->security = $security;
+        $this->addressRepository = $addressRepository;
     }
     
     /**
@@ -33,10 +35,16 @@ class OrderController extends AbstractController
      */
     public function orderIndex(Request $request)
     {
+        $user = $this->security->getUser();
+        
         $checkout_form = $this->createForm(CheckoutType::class);
         $checkout_form->handleRequest($request);
+        
         if($checkout_form->isSubmitted())
         {
+            dd($checkout_form);
+            $order = new Order();
+            $order->setCustomerId($user);
             $this->manager->remove($this->order);
             $this->manager->flush();
             

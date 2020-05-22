@@ -51,7 +51,7 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
      * @ORM\Column(type="string", length=25)
      * @Assert\Length(min="10", minMessage="Numéro de téléphone incorrect")
      */
-    public $phone;
+    private $phone;
 
     /**
      * @ORM\Column(type="date")
