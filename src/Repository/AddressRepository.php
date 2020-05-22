@@ -33,6 +33,16 @@ class AddressRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findOneAddressById($value): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Address[] Returns an array of Address objects
     //  */

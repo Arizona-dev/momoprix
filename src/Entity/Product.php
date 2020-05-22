@@ -70,20 +70,21 @@ class Product
     private $specifications;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Order", inversedBy="qte")
-     */
-    private $ProductHasOrder;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
      */
     private $Category;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductHasOrder", mappedBy="Product", orphanRemoval=true)
+     */
+    private $ProductQte;
 
     public function __construct()
     {
         $this->ProductHasOrder = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
+        $this->ProductQte = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,32 +205,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|Order[]
-     */
-    public function getProductHasOrder(): Collection
-    {
-        return $this->ProductHasOrder;
-    }
-
-    public function addProductHasOrder(Order $productHasOrder): self
-    {
-        if (!$this->ProductHasOrder->contains($productHasOrder)) {
-            $this->ProductHasOrder[] = $productHasOrder;
-        }
-
-        return $this;
-    }
-
-    public function removeProductHasOrder(Order $productHasOrder): self
-    {
-        if ($this->ProductHasOrder->contains($productHasOrder)) {
-            $this->ProductHasOrder->removeElement($productHasOrder);
-        }
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->Category;
@@ -241,4 +216,36 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection|ProductHasOrder[]
+     */
+    public function getProductQte(): Collection
+    {
+        return $this->ProductQte;
+    }
+
+    public function addProductQte(ProductHasOrder $productQte): self
+    {
+        if (!$this->ProductQte->contains($productQte)) {
+            $this->ProductQte[] = $productQte;
+            $productQte->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductQte(ProductHasOrder $productQte): self
+    {
+        if ($this->ProductQte->contains($productQte)) {
+            $this->ProductQte->removeElement($productQte);
+            // set the owning side to null (unless already changed)
+            if ($productQte->getProduct() === $this) {
+                $productQte->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

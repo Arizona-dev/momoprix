@@ -59,7 +59,7 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
     private $dateOfBirth;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="Customer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Orders", mappedBy="Customer")
      */
     private $orders;
 
@@ -193,14 +193,14 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
     }
 
     /**
-     * @return Collection|Order[]
+     * @return Collection|Orders[]
      */
     public function getOrders(): Collection
     {
         return $this->orders;
     }
 
-    public function addOrder(Order $order): self
+    public function addOrder(Orders $order): self
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
@@ -210,7 +210,7 @@ class Customer implements UserInterface, \Serializable, EquatableInterface
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeOrder(Orders $order): self
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);

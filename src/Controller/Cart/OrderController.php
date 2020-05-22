@@ -1,29 +1,31 @@
 <?php
 namespace App\Controller\Cart;
 
-use App\Entity\Order;
+use App\Entity\Orders;
 use App\Entity\Address;
+use App\Entity\ProductHasOrder;
 use App\Form\CheckoutType;
 use App\Service\Cart\CartService;
 use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends AbstractController
 {
 
-    private $customerRepository;
-    private $order;
     private $cartService;
     private $addressRepository;
     
-    public function __construct(CustomerRepository $customerRepository, OrderRepository $order, CartService $cartService, Security $security, AddressRepository $addressRepository)
+    public function __construct(EntityManagerInterface $manager, OrderRepository $order, CartService $cartService, Security $security, AddressRepository $addressRepository)
     {
-        $this->customerRepository = $customerRepository;
+        $this->manager = $manager;
         $this->order = $order;
         $this->cartService = $cartService;
         $this->security = $security;
@@ -36,18 +38,36 @@ class OrderController extends AbstractController
     public function orderIndex(Request $request)
     {
         $user = $this->security->getUser();
-        
+        $priceHT = ($this->cartService->getTotal()) * 0.8;
+        $priceTTC = $this->cartService->getTotal();
+        $panier = $this->cartService->getFullCart();
         $checkout_form = $this->createForm(CheckoutType::class);
         $checkout_form->handleRequest($request);
-        
         if($checkout_form->isSubmitted())
         {
-            dd($checkout_form);
-            $order = new Order();
+            $addressId = $checkout_form->getViewData()['delivery_address'];
+            $address = $this->addressRepository->findOneAddressById($addressId);
+            $order = new Orders();
+            $order->setLabel('Commande de: ' . $user->getFirstname() . ' ' . $user->getLastname());
+            $order->setStatus('En attente de préparation');
+            $order->setPriceHT($priceHT);
+            $order->setPriceTTC($priceTTC);
+            $order->setAddressId($address[0]);
             $order->setCustomerId($user);
-            $this->manager->remove($this->order);
+            $order->setDatePayment(new \DateTime());
+            foreach($panier as &$item)
+            {
+                $productHasOrder = new ProductHasOrder();
+
+                $productHasOrder->setOrder($order);
+                $productHasOrder->setProduct($item['product'][0]);
+                $productHasOrder->setQuantity($item['quantity']);
+
+                $this->manager->persist($productHasOrder);
+            }
+            $this->manager->persist($order);
             $this->manager->flush();
-            
+            return $this->redirectToRoute('order_confirm');
         }
 
         return $this->render('/checkout/checkout.html.twig', [

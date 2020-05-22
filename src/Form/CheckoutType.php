@@ -28,9 +28,8 @@ class CheckoutType extends AbstractType
         {
             $index ++;
             array_push($address, [
-            $value->getFirstname() . ' ' . $value->getLastname() . ' - ' . $value->getAddress() . ' ' . $value->getCp()
+            $value->getFirstname() . ' ' . $value->getLastname() . ' - ' . $value->getAddress() . ' ' . $value->getCp() => $value->getId()
             ]);
-            $address[$index] = array_combine($address[$index], $address[$index]);
         }
         return $address;
     }

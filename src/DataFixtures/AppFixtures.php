@@ -4,12 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Product;
-use App\Repository\CategoryRepository;
-use DateTime;
-use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Validator\Constraints\Date;
 use Faker\Factory;
 
 
