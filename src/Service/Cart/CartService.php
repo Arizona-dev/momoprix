@@ -52,6 +52,14 @@ class CartService {
         return $panierWithData;
     }
 
+    public function setFullCart() : array {
+        $emptyCart = [];
+
+        $this->session->set('panier', $emptyCart);
+
+        return $emptyCart;
+    }
+
     public function getTotal() : float {
         $total = 0;
 

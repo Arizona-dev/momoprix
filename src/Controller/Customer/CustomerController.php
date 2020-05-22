@@ -7,7 +7,6 @@ use App\Form\ProfileType;
 use App\Service\Cart\CartService;
 use App\Repository\AddressRepository;
 use App\Repository\CustomerRepository;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
