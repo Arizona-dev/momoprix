@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Cart;
 
 use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;

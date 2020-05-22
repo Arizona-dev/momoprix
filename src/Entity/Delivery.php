@@ -32,7 +32,7 @@ class Delivery
     private $dateDelivery;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Order", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Orders", cascade={"persist", "remove"})
      */
     private $Order;
 
@@ -82,12 +82,12 @@ class Delivery
         return $this;
     }
 
-    public function getOrderId(): ?Order
+    public function getOrderId(): ?Orders
     {
         return $this->Order;
     }
 
-    public function setOrderId(?Order $Order): self
+    public function setOrderId(?Orders $Order): self
     {
         $this->Order = $Order;
 

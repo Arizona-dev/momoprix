@@ -80,12 +80,12 @@
                                 </li>
                                 <li class="cart-icon">
                                 
-                                {% if items | length > 1  %}
+                                {% if items | length > 0  %}
 
                                 {% set itemsquantity = 0 %}
 
                                 {% for item in items %}
-                                    {% set itemsquantity = itemsquantity + (1*item.quantity) %}
+                                    {% set itemsquantity = itemsquantity + item.quantity %}
                                 {% endfor %}
                                     <a href="{{ path('cart_index') }}">
                                         <i class="icon_bag_alt"></i>
@@ -132,35 +132,35 @@
                                 </li>
                                 <li class="cart-price">{{ total }} €</li>
                                     {% else %}
-                                    <a href="{{ path('cart_index') }}">
-                                        <i class="icon_bag_alt"></i>
-                                        <span>0</span>
-                                    </a>
-                                        <div class="cart-hover">
-                                            <div class="select-items">
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="si-text">
-                                                                <div class="product-selected">
-                                                                    <h6>Surprise, c'est vide ! </h6>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                        <a href="{{ path('cart_index') }}">
+                                            <i class="icon_bag_alt"></i>
+                                            <span>0</span>
+                                        </a>
+                                            <div class="cart-hover">
+                                                <div class="select-items">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="si-text">
+                                                                    <div class="product-selected">
+                                                                        <h6>Surprise, c'est vide ! </h6>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="select-total">
+                                                    <span>total:</span>
+                                                    <h5>0.00 €</h5>
+                                                </div>
+                                                <div class="select-button">
+                                                    <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
+                                                </div>
                                             </div>
-                                            <div class="select-total">
-                                                <span>total:</span>
-                                                <h5>0.00 €</h5>
-                                            </div>
-                                            <div class="select-button">
-                                                <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
-                                            </div>
-                                        </div>
-                                </li>
-                                <li class="cart-price">0.00 €</li>
-                                {% endif %}
+                                    </li>
+                                        <li class="cart-price">0.00 €</li>
+                                    {% endif %}
                                 {% endif %}
                             </ul>
                         </div>

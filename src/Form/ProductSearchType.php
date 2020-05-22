@@ -4,9 +4,9 @@ namespace App\Form;
 
 use App\Entity\ProductSearch;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ProductSearchType extends AbstractType
 {
@@ -17,14 +17,18 @@ class ProductSearchType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Prix min'
+                    'placeholder' => 'Prix min',
+                    'min' => 0,
+                    'max' => 999
                 ]
             ])
             ->add('maxPrice', IntegerType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Prix max'
+                    'placeholder' => 'Prix max',
+                    'min' => 1,
+                    'max' => 1000
                 ]
             ])
         ;

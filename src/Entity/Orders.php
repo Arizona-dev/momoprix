@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  */
-class Order
+class Orders
 {
     /**
      * @ORM\Id()
@@ -49,11 +49,6 @@ class Order
     private $datePayment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="ProductHasOrder")
-     */
-    private $qte;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="orders")
      */
     private $Customer;
@@ -63,9 +58,16 @@ class Order
      */
     private $Address;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductHasOrder", mappedBy="Order", orphanRemoval=true)
+     */
+    private $ProductQte;
+
     public function __construct()
     {
         $this->qte = new ArrayCollection();
+        $this->dateOrder = new \DateTime();
+        $this->ProductQte = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,34 +147,6 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection|Product[]
-     */
-    public function getQte(): Collection
-    {
-        return $this->qte;
-    }
-
-    public function addQte(Product $qte): self
-    {
-        if (!$this->qte->contains($qte)) {
-            $this->qte[] = $qte;
-            $qte->addProductHasOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQte(Product $qte): self
-    {
-        if ($this->qte->contains($qte)) {
-            $this->qte->removeElement($qte);
-            $qte->removeProductHasOrder($this);
-        }
-
-        return $this;
-    }
-
     public function getCustomerId(): ?Customer
     {
         return $this->Customer;
@@ -193,6 +167,37 @@ class Order
     public function setAddressId(?Address $Address): self
     {
         $this->Address = $Address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProductQte(): Collection
+    {
+        return $this->ProductQte;
+    }
+
+    public function addProductQte(ProductHasOrder $productQte): self
+    {
+        if (!$this->ProductQte->contains($productQte)) {
+            $this->ProductQte[] = $productQte;
+            $productQte->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductQte(ProductHasOrder $productQte): self
+    {
+        if ($this->ProductQte->contains($productQte)) {
+            $this->ProductQte->removeElement($productQte);
+            // set the owning side to null (unless already changed)
+            if ($productQte->getOrder() === $this) {
+                $productQte->setOrder(null);
+            }
+        }
 
         return $this;
     }

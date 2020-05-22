@@ -35,9 +35,13 @@ Floor: Etage
 Floor_ph: Numéro de votre étage
 Elevator: Ascenseur
 Elevator_ph: ''
-Choose your logement type: Choisissez votre type de logement
+AddressType: Type de l'adresse
+Billing: Facturation
+Delivery: Livraison
 Appartement: Appartement
 House: Maison
 Does your housing have an elevator?: Votre logement dispose t'il d'un ascenseur?
 Yes_elevator: Ascenseur disponible
 No_elevator: Pas d'ascenseur
+Billing Address: Adresse de facturation
+Delivery Address: Adresse de livraison
