@@ -55,6 +55,7 @@ class Orders
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Address")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $Address;
 

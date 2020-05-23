@@ -48,9 +48,16 @@ class OrderController extends AbstractController
                 $address = $this->addressRepository->findOneAddressById($addressId);
                 $order = new Orders();
                 $order->setLabel('Commande de: ' . $user->getFirstname() . ' ' . $user->getLastname());
-                $order->setStatus('En attente de préparation');
+                $order->setStatus('00');
+                /* STATUS 00 : En attente de préparation
+                STATUS 01 : En cours de préparation
+                STATUS 02 : En attente de livraison
+                STATUS 03 : En cours de livraison
+                STATUS 04 : Livrée
+                STATUS 99 : Remboursé
+                */
                 if($priceTTC < 60) {
-                    $priceHT = $priceHT + (8*0.8); //add shipping fee
+                    $priceHT = $priceHT + (8*0.8);
                     $priceTTC = $priceTTC + 8; //add shipping fee
                 }
                 $order->setPriceHT($priceHT);

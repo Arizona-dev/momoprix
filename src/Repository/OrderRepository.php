@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Orders;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+
 
 /**
  * @method Orders|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +22,25 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
-    // /**
-    //  * @return Order[] Returns an array of Order objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Orders[] Returns an array of Order objects
+     */
+    public function findAllOrdersById($value)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+            ->addSelect('I')
+            ->addSelect('p')
+            ->join('o.ProductQte', 'I')
+            ->join('I.Product','p')
+            ->andWhere('o.Customer = :id')
+            ->setParameter('id', $value)
+            ->orderBy('o.dateOrder', 'DESC')
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Order

@@ -3,6 +3,19 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <a href="/"><i class="fa fa-home"></i> Accueil</a>
+                    <a href="/profile"> Mon compte</a>
+                    <span>Mes Commandes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <br>
 <div class="container">
 	<div class="row">
@@ -16,69 +29,68 @@
           </div>
 		</div>
 		<div class="col-md-9">
-		    <div class="card">
-		        <div class="card-body">
-		            <div class="row">
-		                <div class="col-md-12">
-		                    <h4>Modifier votre compte</h4>
-		                    <hr>
-		                </div>
-		            </div>
-		            <div class="row">
-		                <div class="col-md-12">
-		                    <form>
-                              <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Identifiant*</label> 
-                                <div class="col-8">
-                                  <input id="username" name="username" placeholder="Identifiant" class="form-control here" required="required" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="firstname" class="col-4 col-form-label">Prénom</label> 
-                                <div class="col-8">
-                                  <input id="firstname" name="firstname" placeholder="Prénom" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="lastname" class="col-4 col-form-label">Nom</label> 
-                                <div class="col-8">
-                                  <input id="lastname" name="lastname" placeholder="Nom" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="email" class="col-4 col-form-label">Email*</label> 
-                                <div class="col-8">
-                                  <input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="phone" class="col-4 col-form-label">Numéro de téléphone</label> 
-                                <div class="col-8">
-                                  <input id="phone" name="phone" placeholder="06xxxxxxxx" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label for="newpass" class="col-4 col-form-label">Nouveau mot de passe</label> 
-                                <div class="col-8">
-                                  <input id="newpass" name="newpass" placeholder="Nouveau mot de passe" class="form-control here" type="text">
-                                </div>
-                              </div> 
-                              <div class="form-group row">
-                                <label for="newpassconf" class="col-4 col-form-label">Confirmer le mot de passe</label> 
-                                <div class="col-8">
-                                  <input id="newpassconf" name="newpassconf" placeholder="Retaper le mot de passe" class="form-control here" type="text">
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                  <button name="submit" type="submit" class="btn btn-primary">Mettre à jour</button>
-                                </div>
-                              </div>
-                            </form>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+              <div class="col-md-12">
+                <h4>Mes Commandes</h4>
+                <hr>
+              </div>
+          </div>
+        {% for order in orders %}
+          <div class="row">
+            
+              <div class="col-md-6 mb-3">
+                  <p>Status</p>
+                  {{ order.status }}
+              </div>
+              <div class="col-md-6 mb-3">
+                  <p>Date de la commande</p>
+                  {{ order.dateOrder|date('d-m-Y') }}
+              </div>
+              <div class="col-md-6 mb-3">
+                  <p>Prix HT</p>
+                  {{ order.priceHT }}
+              </div>
+              <div class="col-md-6 mb-3">
+                  <p>Prix TTC</p>
+                  {{ order.priceTTC }}
+              </div>
+              <div class="col-md-12 mb-3">
+                <div class="">
+                  <p>Articles</p>
+                </div>
+                <div class="md-6">
+                  <p>Désignation</p>
+                </div>
+                <div class="md-3 mb-3">
+                  <p>Prix</p>
+                </div>
+                <div class="md-3 mb-3">
+                  <p>Quantitée</p>
+                </div>
+                  {% for item in order.ProductQte %}
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <p>Désignation</p>
+                        <a href="/courses-en-ligne/{{ item.Product.name|slugify }}-{{ item.Product.id }}">{{ item.Product.name }}</a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <p>Prix</p>
+                        {{ item.Product.price }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <p>Quantitée</p>
+                        {{ item.quantity }}
+                    </div>
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
     </div>
 	</div>
 </div>

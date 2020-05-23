@@ -5,8 +5,8 @@ use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\ProfileType;
 use App\Service\Cart\CartService;
+use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
-use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -22,9 +22,9 @@ class CustomerController extends AbstractController {
     protected $manager;
 
     /**
-     * @var CustomerRepository
+     * @var OrderRepository
      */
-    protected $customerRepository;
+    protected $ordersRepository;
 
     /**
      * @var AddressRepository
@@ -36,11 +36,11 @@ class CustomerController extends AbstractController {
      */
     protected $cartService;
 
-    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository, AddressRepository $addressRepository, CartService $cartService)
+    public function __construct(Security $security, EntityManagerInterface $manager, OrderRepository $ordersRepository, AddressRepository $addressRepository, CartService $cartService)
     {
         $this->security = $security;
         $this->manager = $manager;
-        $this->customerRepository = $customerRepository;
+        $this->ordersRepository = $ordersRepository;
         $this->addressRepository = $addressRepository;
         $this->cartService = $cartService;
     }
@@ -113,7 +113,14 @@ class CustomerController extends AbstractController {
      */
     public function orders()
     {
-        return $this->render('/customer/orders.html.twig');
+        $user = $this->security->getUser();
+        $orders = $this->ordersRepository->findAllOrdersById($user->getId());
+        dump($orders);
+        return $this->render('/customer/orders.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal(),
+            'orders' => $orders
+        ]);
     }
 
     // Mes factures
