@@ -120,7 +120,6 @@ class CustomerController extends AbstractController {
     {
         $user = $this->security->getUser();
         $orders = $this->ordersRepository->findAllOrdersById($user->getId());
-        dump($orders);
         return $this->render('/customer/orders.html.twig', [
             'items' => $this->cartService->getFullCart(),
             'total' => $this->cartService->getTotal(),

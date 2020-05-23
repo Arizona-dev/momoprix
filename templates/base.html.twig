@@ -76,14 +76,12 @@
                                 <li class="heart-icon">
                                     <a href="/profile/wishlist">
                                         <i class="icon_heart_alt"></i>
-                                        <span></span>
                                     </a>
                                 </li>
                                 {% else %}
                                 <li class="heart-icon">
                                     <a href="/profile/wishlist">
                                         <i class="icon_heart_alt"></i>
-                                        <span>0</span>
                                     </a>
                                 </li>
                                 {% endif %}
@@ -183,7 +181,13 @@
                             <i class="ti-menu"></i>
                             <span>Tout les rayons</span>
                             <ul class="depart-hover">
-                            {% block categories_list %}{% endblock %}
+                            {% if categories is defined %}
+                                {% for category in categories %}
+                                    <li>
+                                        <a href="/courses-en-ligne" style="color: black;">{{ category.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
                                 
                             </ul>
                         </div>

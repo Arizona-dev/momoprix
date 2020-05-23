@@ -2,27 +2,26 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;
+use App\Repository\CategoryRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractController
 {
 
     /**
      * @Route("/", name="home")
-     * @param ProductRepository $repository
+     * @param CategoryRepository $repository
      * @return Response
      */
-    public function index(ProductRepository $repository, CartService $cartService): Response
+    public function index(CategoryRepository $repository, CartService $cartService): Response
     {
-        $products = $repository->findAll();
-
+        $category = $repository->findAll();
         return $this->render('/index.html.twig', [
             'current_menu' => 'home',
-            'products' => $products,
+            'categories' => $category,
             'items' => $cartService->getFullCart(),
             'total' => $cartService->getTotal()
         ]);
