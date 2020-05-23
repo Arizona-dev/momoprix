@@ -52,7 +52,7 @@
                                             </div>
                                         </td>
                                         <td class="total-price first-row">{{ item.product[0].price * item.quantity}} €</td>
-                                        <td class="close-td first-row"><i class="ti-close"></i></td>
+                                        <td class="close-td first-row"><a href="/panier/r/{{ item.product[0].id }}" class="ti-close" style="color: black;"></a></td>
                                     </tr>
                                 {% endfor %}                            
                             </tbody>

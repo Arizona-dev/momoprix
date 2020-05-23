@@ -49,6 +49,10 @@ class OrderController extends AbstractController
                 $order = new Orders();
                 $order->setLabel('Commande de: ' . $user->getFirstname() . ' ' . $user->getLastname());
                 $order->setStatus('En attente de préparation');
+                if($priceTTC < 60) {
+                    $priceHT = $priceHT + (8*0.8); //add shipping fee
+                    $priceTTC = $priceTTC + 8; //add shipping fee
+                }
                 $order->setPriceHT($priceHT);
                 $order->setPriceTTC($priceTTC);
                 $order->setAddressId($address[0]);
