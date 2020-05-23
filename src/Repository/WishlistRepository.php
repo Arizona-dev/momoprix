@@ -36,8 +36,7 @@ class WishlistRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Wishlist
+    public function findAllByCustomerId($value): ?Wishlist
     {
         return $this->createQueryBuilder('w')
             ->andWhere('w.exampleField = :val')
@@ -46,5 +45,4 @@ class WishlistRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
 }

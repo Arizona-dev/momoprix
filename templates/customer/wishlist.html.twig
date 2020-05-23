@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 ">
+		     <div class="list-group ">
+              <a href="/profile" class="list-group-item list-group-item-action">Mon compte</a>
+              <a href="/profile/orders" class="list-group-item list-group-item-action">Mes Commandes</a>
+              <a href="/profile/wishlist" class="list-group-item list-group-item-action active">Ma liste de souhaits</a>
+              <a href="/profile/address" class="list-group-item list-group-item-action">Mes Adresses</a>
+              <a href="/profile/payments" class="list-group-item list-group-item-action">Moyens de Paiements</a>
+          </div>
+		</div>
+		<div class="col-md-9">
+		    <div class="card">
+		        <div class="card-body">
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <h4>Votre liste de souhaits</h4>
+		                    <hr>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="col-md-12">
+		                    
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+    </div>
+	</div>
+</div>
+<br>
+{% endblock %}

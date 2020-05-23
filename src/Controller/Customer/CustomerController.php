@@ -125,11 +125,14 @@ class CustomerController extends AbstractController {
 
     // Mes factures
     /**
-     * @Route("/profile/receipts", name="profile_receipts")
+     * @Route("/profile/wishlist", name="profile_wishlist")
      */
-    public function receipts()
+    public function wishlist()
     {
-        return $this->render('/customer/receipts.html.twig');
+        return $this->render('/customer/wishlist.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
+        ]);
     }
 
     //Mes adresses

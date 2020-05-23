@@ -54,7 +54,7 @@ class OrderController extends AbstractController
                 STATUS 02 : En attente de livraison
                 STATUS 03 : En cours de livraison
                 STATUS 04 : Livrée
-                STATUS 99 : Remboursé
+                STATUS 99 : Terminée
                 */
                 if($priceTTC < 60) {
                     $priceHT = $priceHT + (8*0.8);

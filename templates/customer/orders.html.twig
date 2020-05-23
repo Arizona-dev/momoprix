@@ -23,26 +23,40 @@
 		     <div class="list-group ">
               <a href="/profile" class="list-group-item list-group-item-action">Mon compte</a>
               <a href="/profile/orders" class="list-group-item list-group-item-action active">Mes Commandes</a>
-              <a href="/profile/receipts" class="list-group-item list-group-item-action">Mes Factures</a>
+              <a href="/profile/wishlist" class="list-group-item list-group-item-action">Ma liste de souhaits</a>
               <a href="/profile/address" class="list-group-item list-group-item-action">Mes Adresses</a>
               <a href="/profile/payments" class="list-group-item list-group-item-action">Moyens de Paiements</a>
           </div>
 		</div>
 		<div class="col-md-9">
+    {% for order in orders %}
       <div class="card">
+      
         <div class="card-body">
-          <div class="row">
-              <div class="col-md-12">
-                <h4>Mes Commandes</h4>
-                <hr>
-              </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Commande n° {{order.dateOrder|date('ymd')}}-{{ order.id }}</h4>
+            <hr>
           </div>
-        {% for order in orders %}
+        </div>
           <div class="row">
             
               <div class="col-md-6 mb-3">
                   <p>Status</p>
-                  {{ order.status }}
+                  {% if order.status == 00 %}
+                  <span>Commande en attente de préparation</span>
+                  {% elseif order.status == 01 %}
+                  <span>Commande en cours de préparation</span>
+                  {% elseif order.status == 02 %}
+                  <span>Commande en attente de livraison</span>
+                  {% elseif order.status == 03 %}
+                  <span>Commande en cours de livraison</span>
+                  {% elseif order.status == 04 %}
+                  <span>Commande livrée</span>
+                  {% elseif order.status == 99 %}
+                  <span>Commande Terminée</span>
+                  {% endif %}
               </div>
               <div class="col-md-6 mb-3">
                   <p>Date de la commande</p>
@@ -57,40 +71,40 @@
                   {{ order.priceTTC }}
               </div>
               <div class="col-md-12 mb-3">
-                <div class="">
+              <hr>
+                <div class="center">
                   <p>Articles</p>
                 </div>
-                <div class="md-6">
-                  <p>Désignation</p>
-                </div>
-                <div class="md-3 mb-3">
-                  <p>Prix</p>
-                </div>
-                <div class="md-3 mb-3">
-                  <p>Quantitée</p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Désignation</p>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <p>Prix</p>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <p>Quantitée</p>
+                  </div>
                 </div>
                   {% for item in order.ProductQte %}
                   <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <p>Désignation</p>
-                        <a href="/courses-en-ligne/{{ item.Product.name|slugify }}-{{ item.Product.id }}">{{ item.Product.name }}</a>
+                    <div class="col-md-6 mb-3 bg-light">
+                        <a style="color: black" href="/courses-en-ligne/{{ item.Product.name|slugify }}-{{ item.Product.id }}">{{ item.Product.name }}</a>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <p>Prix</p>
+                    <div class="col-md-3 mb-3 bg-light">
                         {{ item.Product.price }}
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <p>Quantitée</p>
+                    <div class="col-md-3 mb-3 bg-light">
                         {{ item.quantity }}
                     </div>
                   </div>
                   {% endfor %}
               </div>
           </div>
-          <hr>
-          {% endfor %}
         </div>
       </div>
+      <br>
+      {% endfor %}
     </div>
 	</div>
 </div>
