@@ -47,6 +47,8 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/order, roles: ROLE_USER }
+        - { path: ^/order/confirm, roles: ROLE_USER }
 
     encoders:
         App\Entity\Customer:

@@ -55,11 +55,39 @@
           <span class="text-success">{{ promo.percentage }}</span>
         </li>
         {% endif %}
-        
+        {% if total > 60 %}
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <div class="text-success">
+            <h6 class="my-0">Livraison gratuite</h6>
+          </div>
+          <span class="text-success">0 €</span>
+        </li>
         <li class="list-group-item d-flex justify-content-between">
-          <span>Total</span>
+          <span>Total HT</span>
+          <strong>{{ total * 0.8 }} €</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <span>Total TTC</span>
           <strong>{{ total }} €</strong>
         </li>
+        {% else %}
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <div class="text">
+            <h6 class="my-0">Livraison</h6>
+          </div>
+          <span class="text">8 €</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total HT</span>
+          <strong>{{ total + (8*0.8) }} €</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <span>Total TTC</span>
+          <strong>{{ total + 8}} €</strong>
+        </li>
+        {% endif %}
+        
+        
       </ul>
 
       <form class="card p-2">
@@ -74,7 +102,12 @@
     <div class="col-md-8 order-md-1">
       {{ form_start(checkout_form, {'method': 'post' }) }}
         <h4 class="mb-3">Adresse de livraison</h4>
+        {% if address_exists != [] %}
         {{ form_row(checkout_form.delivery_address, {'label': false, 'attr':{'placeholder': 'Delivery Address'} }) }}
+        {% else %}
+          <span>Vous n'avez renseigné encore aucune adresse, cliquez ici pour en ajouter une :</span>
+          <a href="/profile/address" style="color:blue;">Ajouter une adresse</a>
+        {% endif %}
         <hr class="mb-4">
         <h4 class="mb-3">Choisir un mode de paiement</h4>
         <div class="d-block my-3">

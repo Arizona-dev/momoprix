@@ -38,6 +38,18 @@ class CartController extends AbstractController
     }
 
     /**
+     * @Route("/panier/m/{id}", name="cart_minus")
+     */
+    public function minus($id, CartService $cartService) 
+    {
+        $cartService->minus($id);
+
+        return $this->redirectToRoute('cart_index', [
+            
+        ]);
+    }
+
+    /**
      * @Route("/panier/r/{id}", name="cart_remove")
      */
     public function remove($id, CartService $cartService) 

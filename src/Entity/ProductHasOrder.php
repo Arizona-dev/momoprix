@@ -2,7 +2,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @ORM\Entity
@@ -19,13 +18,13 @@ class ProductHasOrder
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Orders", inversedBy="ProductQte")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $Order;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="ProductQte")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $Product;
 

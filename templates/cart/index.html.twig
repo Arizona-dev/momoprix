@@ -47,12 +47,12 @@
                                         <td class="qua-col first-row">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input type="text" value="{{ item.quantity}}">
+                                                    <input id="{{ item.product[0].id }}" type="text" value="{{ item.quantity }}">
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="total-price first-row">{{ item.product[0].price * item.quantity}} €</td>
-                                        <td class="close-td first-row"><i class="ti-close"></i></td>
+                                        <td class="close-td first-row"><a href="/panier/r/{{ item.product[0].id }}" class="ti-close" style="color: black;"></a></td>
                                     </tr>
                                 {% endfor %}                            
                             </tbody>
@@ -111,7 +111,11 @@
                                         <li class="subtotal">Sous-total <span>0.00 €</span></li>
                                         <li class="cart-total">Total <span>0.00 €</span></li>
                                     </ul>
+                                    {% if items == [] %}
+                                    <a href="#" class="proceed-btn" disabled>COMMANDER</a>
+                                    {% else %}
                                     <a href="/order" class="proceed-btn">COMMANDER</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -120,5 +124,4 @@
             {% endif %}
         </div>
     </section>
-
 {% endblock %}

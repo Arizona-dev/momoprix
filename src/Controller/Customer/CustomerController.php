@@ -2,14 +2,19 @@
 namespace App\Controller\Customer;
 
 use App\Entity\Address;
+use App\Entity\Product;
+use App\Entity\Wishlist;
 use App\Form\AddressType;
 use App\Form\ProfileType;
 use App\Service\Cart\CartService;
+use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
-use App\Repository\CustomerRepository;
+use App\Repository\ProductRepository;
+use App\Repository\WishlistRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,9 +27,9 @@ class CustomerController extends AbstractController {
     protected $manager;
 
     /**
-     * @var CustomerRepository
+     * @var OrderRepository
      */
-    protected $customerRepository;
+    protected $ordersRepository;
 
     /**
      * @var AddressRepository
@@ -36,11 +41,11 @@ class CustomerController extends AbstractController {
      */
     protected $cartService;
 
-    public function __construct(Security $security, EntityManagerInterface $manager, CustomerRepository $customerRepository, AddressRepository $addressRepository, CartService $cartService)
+    public function __construct(Security $security, EntityManagerInterface $manager, OrderRepository $ordersRepository, AddressRepository $addressRepository, CartService $cartService)
     {
         $this->security = $security;
         $this->manager = $manager;
-        $this->customerRepository = $customerRepository;
+        $this->ordersRepository = $ordersRepository;
         $this->addressRepository = $addressRepository;
         $this->cartService = $cartService;
     }
@@ -113,16 +118,65 @@ class CustomerController extends AbstractController {
      */
     public function orders()
     {
-        return $this->render('/customer/orders.html.twig');
+        $user = $this->security->getUser();
+        $orders = $this->ordersRepository->findAllOrdersById($user->getId());
+        return $this->render('/customer/orders.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal(),
+            'orders' => $orders
+        ]);
     }
 
-    // Mes factures
+    // Ma wishlist
     /**
-     * @Route("/profile/receipts", name="profile_receipts")
+     * @Route("/profile/wishlist", name="profile_wishlist")
      */
-    public function receipts()
+    public function wishlist(WishlistRepository $repo)
     {
-        return $this->render('/customer/receipts.html.twig');
+        $user = $this->security->getUser();
+
+        return $this->render('/customer/wishlist.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal(),
+            'wishlists' => $repo->getWishlistById($user->getId())
+        ]);
+    }
+
+    /**
+     * @Route("/profile/wishlist/a{id}", name="profile_wishlist_add")
+     */
+    public function wishlistAdd(ProductRepository $product_repo, Product $product)
+    {
+        $user = $this->security->getUser();
+        $wish = new Wishlist();
+        $wish->setCustomer($user);
+        $_product = $product_repo->findProductById($product->getId());
+        $wish->setProduct($_product[0]);
+        $this->manager->persist($wish);
+        $this->manager->flush();
+
+        return new Response(
+            'Content',
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']);
+    }
+
+    /**
+     * @Route("/profile/wishlist/r{id}", name="profile_wishlist_remove", methods="POST")
+     */
+    public function wishlistRemove(Product $product, WishlistRepository $wish_repo)
+    {
+        $user = $this->security->getUser();
+        $this->manager->remove($product);
+        $this->manager->flush();
+        $this->addFlash('succes', 'Produit retiré de la liste avec succès');
+        
+        return $this->render('/customer/wishlist.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal(),
+            'wishlists' => $wish_repo->getWishlistById($user->getId())
+        ]);
+        
     }
 
     //Mes adresses
@@ -183,7 +237,10 @@ class CustomerController extends AbstractController {
      */
     public function payments()
     {
-        return $this->render('/customer/payments.html.twig');
+        return $this->render('/customer/payments.html.twig', [
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal()
+        ]);
     }
 
 

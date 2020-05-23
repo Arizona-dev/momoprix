@@ -2,20 +2,16 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Orders;
-use App\Entity\Address;
 use App\Entity\ProductHasOrder;
 use App\Form\CheckoutType;
 use App\Service\Cart\CartService;
 use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
-use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends AbstractController
 {
@@ -37,43 +33,61 @@ class OrderController extends AbstractController
      */
     public function orderIndex(Request $request)
     {
-        $user = $this->security->getUser();
-        $priceHT = ($this->cartService->getTotal()) * 0.8;
-        $priceTTC = $this->cartService->getTotal();
-        $panier = $this->cartService->getFullCart();
-        $checkout_form = $this->createForm(CheckoutType::class);
-        $checkout_form->handleRequest($request);
-        if($checkout_form->isSubmitted())
+        $securityContext = $this->container->get('security.authorization_checker');
+        if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            $addressId = $checkout_form->getViewData()['delivery_address'];
-            $address = $this->addressRepository->findOneAddressById($addressId);
-            $order = new Orders();
-            $order->setLabel('Commande de: ' . $user->getFirstname() . ' ' . $user->getLastname());
-            $order->setStatus('En attente de préparation');
-            $order->setPriceHT($priceHT);
-            $order->setPriceTTC($priceTTC);
-            $order->setAddressId($address[0]);
-            $order->setCustomerId($user);
-            $order->setDatePayment(new \DateTime());
-            foreach($panier as &$item)
+
+            $user = $this->security->getUser();
+            $priceHT = ($this->cartService->getTotal()) * 0.8;
+            $priceTTC = $this->cartService->getTotal();
+            $panier = $this->cartService->getFullCart();
+            $checkout_form = $this->createForm(CheckoutType::class);
+            $checkout_form->handleRequest($request);
+            $addressExists = $this->addressRepository->findAllAddressById($user->getId());
+
+            if($checkout_form->isSubmitted() && $panier != [])
             {
-                $productHasOrder = new ProductHasOrder();
+                $addressId = $checkout_form->getViewData()['delivery_address'];
+                $address = $this->addressRepository->findOneAddressById($addressId);
+                $order = new Orders();
+                $order->setLabel('Commande de: ' . $user->getFirstname() . ' ' . $user->getLastname());
+                $order->setStatus('00');
+                /* STATUS 00 : En attente de préparation
+                STATUS 01 : En cours de préparation
+                STATUS 02 : En attente de livraison
+                STATUS 03 : En cours de livraison
+                STATUS 04 : Livrée
+                STATUS 99 : Terminée
+                */
+                if($priceTTC < 60) {
+                    $priceHT = $priceHT + (8*0.8);
+                    $priceTTC = $priceTTC + 8; //add shipping fee
+                }
+                $order->setPriceHT($priceHT);
+                $order->setPriceTTC($priceTTC);
+                $order->setAddressId($address[0]);
+                $order->setCustomerId($user);
+                $order->setDatePayment(new \DateTime());
+                foreach($panier as &$item)
+                {
+                    $productHasOrder = new ProductHasOrder();
 
-                $productHasOrder->setOrder($order);
-                $productHasOrder->setProduct($item['product'][0]);
-                $productHasOrder->setQuantity($item['quantity']);
+                    $productHasOrder->setOrder($order);
+                    $productHasOrder->setProduct($item['product'][0]);
+                    $productHasOrder->setQuantity($item['quantity']);
 
-                $this->manager->persist($productHasOrder);
+                    $this->manager->persist($productHasOrder);
+                }
+                $this->manager->persist($order);
+                $this->manager->flush();
+                return $this->redirectToRoute('order_confirm');
             }
-            $this->manager->persist($order);
-            $this->manager->flush();
-            return $this->redirectToRoute('order_confirm');
         }
-
         return $this->render('/checkout/checkout.html.twig', [
             'items' => $this->cartService->getFullCart(),
             'total' => $this->cartService->getTotal(),
-            'checkout_form' => $checkout_form->createView()
+            'checkout_form' => $checkout_form->createView(),
+            'address_exists' => $addressExists
         ]);
     }
 

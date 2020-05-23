@@ -69,15 +69,23 @@
                                 </div>
                             </div>
                         </div>
-                        {% if items is defined %}
+                        
                         <div class="col-lg-3 text-right col-md-3">
                             <ul class="nav-right">
+                                {% if wishlist is defined and wishlist != [] %}
                                 <li class="heart-icon">
-                                    <a href="#">
+                                    <a href="/profile/wishlist">
                                         <i class="icon_heart_alt"></i>
-                                        <span>2</span>
                                     </a>
                                 </li>
+                                {% else %}
+                                <li class="heart-icon">
+                                    <a href="/profile/wishlist">
+                                        <i class="icon_heart_alt"></i>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if items is defined %}
                                 <li class="cart-icon">
                                 
                                 {% if items | length > 0  %}
@@ -125,8 +133,7 @@
                                                 <h5>{{ total }} €</h5>
                                             </div>
                                             <div class="select-button">
-                                                <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
-                                                <a href="#" class="primary-btn checkout-btn">COMMANDER</a>
+                                                <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR MON PANIER</a>
                                             </div>
                                         </div>
                                 </li>
@@ -155,7 +162,7 @@
                                                     <h5>0.00 €</h5>
                                                 </div>
                                                 <div class="select-button">
-                                                    <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR LE PANIER</a>
+                                                    <a href="{{ path('cart_index') }}" class="primary-btn view-card">VOIR MON PANIER</a>
                                                 </div>
                                             </div>
                                     </li>
@@ -174,7 +181,13 @@
                             <i class="ti-menu"></i>
                             <span>Tout les rayons</span>
                             <ul class="depart-hover">
-                            {% block categories_list %}{% endblock %}
+                            {% if categories is defined %}
+                                {% for category in categories %}
+                                    <li>
+                                        <a href="/courses-en-ligne" style="color: black;">{{ category.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
                                 
                             </ul>
                         </div>
