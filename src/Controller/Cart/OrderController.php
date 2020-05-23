@@ -36,12 +36,15 @@ class OrderController extends AbstractController
         $securityContext = $this->container->get('security.authorization_checker');
         if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
+
             $user = $this->security->getUser();
             $priceHT = ($this->cartService->getTotal()) * 0.8;
             $priceTTC = $this->cartService->getTotal();
             $panier = $this->cartService->getFullCart();
             $checkout_form = $this->createForm(CheckoutType::class);
             $checkout_form->handleRequest($request);
+            $addressExists = $this->addressRepository->findAllAddressById($user->getId());
+
             if($checkout_form->isSubmitted() && $panier != [])
             {
                 $addressId = $checkout_form->getViewData()['delivery_address'];
@@ -83,7 +86,8 @@ class OrderController extends AbstractController
         return $this->render('/checkout/checkout.html.twig', [
             'items' => $this->cartService->getFullCart(),
             'total' => $this->cartService->getTotal(),
-            'checkout_form' => $checkout_form->createView()
+            'checkout_form' => $checkout_form->createView(),
+            'address_exists' => $addressExists
         ]);
     }
 

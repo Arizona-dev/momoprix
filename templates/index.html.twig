@@ -96,32 +96,4 @@
         </div>
     </section>
 
-    {% block javascript %}
-        <script>
-            {()=>{
-                $.ajax({
-                    url: '/products',
-                    method: 'GET',
-                    dataType: 'json'
-                })
-                .done((data)=>{
-                    console.log(data)
-                    let html = '';
-                    data.forEach( product => {
-                        html += `
-                        <div>
-                            <p> ${product.name} </p>
-                            <p> ${product.price} </p>
-                        </div><br>
-                        `;
-                    })
-                    $("#listProduct").html(html);
-                })
-                .fail((jqHXR, textStatus)=>{
-                    alert("Request failed: " + textStatus);
-                })
-            })()
-        </script>
-    {% endblock %}
-
 {% endblock %}

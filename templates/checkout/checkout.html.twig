@@ -102,7 +102,12 @@
     <div class="col-md-8 order-md-1">
       {{ form_start(checkout_form, {'method': 'post' }) }}
         <h4 class="mb-3">Adresse de livraison</h4>
+        {% if address_exists != [] %}
         {{ form_row(checkout_form.delivery_address, {'label': false, 'attr':{'placeholder': 'Delivery Address'} }) }}
+        {% else %}
+          <span>Vous n'avez renseigné encore aucune adresse, cliquez ici pour en ajouter une :</span>
+          <a href="/profile/address" style="color:blue;">Ajouter une adresse</a>
+        {% endif %}
         <hr class="mb-4">
         <h4 class="mb-3">Choisir un mode de paiement</h4>
         <div class="d-block my-3">
