@@ -9,12 +9,12 @@
 
 'use strict';
 
-(function ($) {
+(function($) {
 
     /*------------------
         Preloader
     --------------------*/
-    $(window).on('load', function () {
+    $(window).on('load', function() {
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
     });
@@ -22,7 +22,7 @@
     /*------------------
         Background Set
     --------------------*/
-    $('.set-bg').each(function () {
+    $('.set-bg').each(function() {
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
     });
@@ -55,7 +55,7 @@
     /*------------------
         Product Slider
     --------------------*/
-   $(".product-slider").owlCarousel({
+    $(".product-slider").owlCarousel({
         loop: true,
         margin: 25,
         nav: true,
@@ -129,7 +129,7 @@
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    if(mm == 12) {
+    if (mm == 12) {
         mm = '01';
         yyyy = yyyy + 1;
     } else {
@@ -145,7 +145,7 @@
     // Use this for real timer date
     /* var timerdate = "2020/01/01"; */
 
-	$("#countdown").countdown(timerdate, function(event) {
+    $("#countdown").countdown(timerdate, function(event) {
         $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p> </div>" + "<div class='cd-item'><span>%H</span> <p>Hrs</p> </div>" + "<div class='cd-item'><span>%M</span> <p>Mins</p> </div>" + "<div class='cd-item'><span>%S</span> <p>Secs</p> </div>"));
     });
 
@@ -154,52 +154,56 @@
      Language Flag js
     ----------------------------------------------------*/
     $(document).ready(function(e) {
-    //no use
-    try {
-        var pages = $("#pages").msDropdown({on:{change:function(data, ui) {
-            var val = data.value;
-            if(val!="")
-                window.location = val;
-        }}}).data("dd");
+        //no use
+        try {
+            var pages = $("#pages").msDropdown({
+                on: {
+                    change: function(data, ui) {
+                        var val = data.value;
+                        if (val != "")
+                            window.location = val;
+                    }
+                }
+            }).data("dd");
 
-        var pagename = document.location.pathname.toString();
-        pagename = pagename.split("/");
-        pages.setIndexByValue(pagename[pagename.length-1]);
+            var pagename = document.location.pathname.toString();
+            pagename = pagename.split("/");
+            pages.setIndexByValue(pagename[pagename.length - 1]);
+            $("#ver").html(msBeautify.version.msDropdown);
+        } catch (e) {
+            // console.log(e);
+        }
         $("#ver").html(msBeautify.version.msDropdown);
-    } catch(e) {
-        // console.log(e);
-    }
-    $("#ver").html(msBeautify.version.msDropdown);
 
-    //convert
-    $(".language_drop").msDropdown({roundedBorder:false});
+        //convert
+        $(".language_drop").msDropdown({ roundedBorder: false });
         $("#tech").data("dd");
     });
     /*-------------------
 		Range Slider
 	--------------------- */
-	var rangeSlider = $(".price-range"),
-		minamount = $("#minamount"),
-		maxamount = $("#maxamount"),
-		minPrice = rangeSlider.data('min'),
-		maxPrice = rangeSlider.data('max');
-	    rangeSlider.slider({
-		range: true,
-		min: minPrice,
+    var rangeSlider = $(".price-range"),
+        minamount = $("#minamount"),
+        maxamount = $("#maxamount"),
+        minPrice = rangeSlider.data('min'),
+        maxPrice = rangeSlider.data('max');
+    rangeSlider.slider({
+        range: true,
+        min: minPrice,
         max: maxPrice,
-		values: [minPrice, maxPrice],
-		slide: function (event, ui) {
-			minamount.val('$' + ui.values[0]);
-			maxamount.val('$' + ui.values[1]);
-		}
-	});
-	minamount.val('$' + rangeSlider.slider("values", 0));
+        values: [minPrice, maxPrice],
+        slide: function(event, ui) {
+            minamount.val('$' + ui.values[0]);
+            maxamount.val('$' + ui.values[1]);
+        }
+    });
+    minamount.val('$' + rangeSlider.slider("values", 0));
     maxamount.val('$' + rangeSlider.slider("values", 1));
 
     /*-------------------
 		Radio Btn
 	--------------------- */
-    $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function () {
+    $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function() {
         $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").removeClass('active');
         $(this).addClass('active');
     });
@@ -212,16 +216,16 @@
     /*------------------
 		Single Product
 	--------------------*/
-	$('.product-thumbs-track .pt').on('click', function(){
-		$('.product-thumbs-track .pt').removeClass('active');
-		$(this).addClass('active');
-		var imgurl = $(this).data('imgbigurl');
-		var bigImg = $('.product-big-img').attr('src');
-		if(imgurl != bigImg) {
-			$('.product-big-img').attr({src: imgurl});
-			$('.zoomImg').attr({src: imgurl});
-		}
-	});
+    $('.product-thumbs-track .pt').on('click', function() {
+        $('.product-thumbs-track .pt').removeClass('active');
+        $(this).addClass('active');
+        var imgurl = $(this).data('imgbigurl');
+        var bigImg = $('.product-big-img').attr('src');
+        if (imgurl != bigImg) {
+            $('.product-big-img').attr({ src: imgurl });
+            $('.zoomImg').attr({ src: imgurl });
+        }
+    });
 
     $('.product-pic-zoom').zoom();
 
@@ -229,22 +233,49 @@
 		Quantity change
 	--------------------- */
     var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
-	proQty.on('click', '.qtybtn', function () {
-		var $button = $(this);
-		var oldValue = $button.parent().find('input').val();
-		if ($button.hasClass('inc')) {
-			var newVal = parseFloat(oldValue) + 1;
-		} else {
-			// Don't allow decrementing below zero
-			if (oldValue > 0) {
-				var newVal = parseFloat(oldValue) - 1;
-			} else {
-				newVal = 0;
-			}
-		}
-		$button.parent().find('input').val(newVal);
-	});
+    proQty.prepend('<span class="dec qtybtn">-</span>');
+    proQty.append('<span class="inc qtybtn">+</span>');
+    proQty.on('click', '.qtybtn', function() {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+            var url = '/panier/a/' + $button.parent().find('input').attr('id');
+            $.ajax({
+                url: url,
+                method: 'POST',
+                cache: false,
+                dataType: 'html'
+            });
+        } else {
+            // Don't allow decrementing below one
+            if (oldValue > 1) {
+                var newVal = parseFloat(oldValue) - 1;
+                var url = '/panier/m/' + $button.parent().find('input').attr('id');
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    cache: false,
+                    dataType: 'html'
+                });
+            } else {
+                newVal = 1;
+            }
+        }
+        $button.parent().find('input').val(newVal);
+    });
 
+    proQty.on('click', '.ti-close', function() {
+        var $button = $(this);
+        if ($button.hasClass('inc')) {
+            var url = '/panier/r/' + $button.parent().find('input').attr('id');
+            alert(url);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                cache: false,
+                dataType: 'html'
+            });
+        }
+    });
 })(jQuery);
