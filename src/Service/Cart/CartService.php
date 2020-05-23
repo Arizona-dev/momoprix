@@ -73,6 +73,10 @@ class CartService {
 
     public function getTotal() : float {
         $total = 0;
+        $panier = $this->session->get('panier', []);
+        if($this->session->get('panier', []) == 0){
+            $this->setFullCart();
+        }
 
         foreach($this->getFullCart() as $item) {
             $total += $item['product'][0]->getPrice() * $item['quantity'];

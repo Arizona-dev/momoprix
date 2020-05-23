@@ -137,9 +137,6 @@
         mm = String(mm).padStart(2, '0');
     }
     var timerdate = mm + '/' + dd + '/' + yyyy;
-    // For demo preview end
-
-    console.log(timerdate);
 
 
     // Use this for real timer date
@@ -278,4 +275,28 @@
             });
         }
     });
+
+    var addToWish = $('.addWish');
+    addToWish.on('click', '.icon_heart_alt', function() {
+        var $button = $(this);
+        var url = '/profile/wishlist/a' + $button.attr('id');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            cache: false,
+            dataType: 'html'
+        });
+    });
+
+    $(document).on('click', '.rmvWish', function() {
+        var $button = $(this);
+        var url = '/profile/wishlist/r' + $button.attr('id');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            cache: false,
+            dataType: 'html'
+        });
+    });
+
 })(jQuery);

@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Orders;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr\Orx;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 
 /**

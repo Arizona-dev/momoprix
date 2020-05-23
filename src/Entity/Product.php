@@ -79,12 +79,18 @@ class Product
      */
     private $ProductQte;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Wishlist", mappedBy="Product")
+     */
+    private $wishlists;
+
     public function __construct()
     {
         $this->ProductHasOrder = new ArrayCollection();
         $this->wishlist = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
         $this->ProductQte = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,6 +248,37 @@ class Product
             // set the owning side to null (unless already changed)
             if ($productQte->getProduct() === $this) {
                 $productQte->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Wishlist[]
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
+            $wishlist->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->contains($wishlist)) {
+            $this->wishlists->removeElement($wishlist);
+            // set the owning side to null (unless already changed)
+            if ($wishlist->getProduct() === $this) {
+                $wishlist->setProduct(null);
             }
         }
 

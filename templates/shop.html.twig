@@ -82,8 +82,8 @@
                                 <div class="product-item">
                                     <div class="pi-pic">
                                         <img src="/img/products/{{ product.imageUrl }}" alt="">
-                                        <div class="icon">
-                                            <i class="icon_heart_alt"></i>
+                                        <div class="icon addWish">
+                                            <a id='{{ product.id }}' style="color: black;" class="icon_heart_alt"></a>
                                         </div>
                                         <ul>
                                             <li class="w-icon active"><a href="{{ path('cart_add', {'id': product.id}) }}"><i class="icon_bag_alt"></i></a></li>

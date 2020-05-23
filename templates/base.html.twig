@@ -69,15 +69,25 @@
                                 </div>
                             </div>
                         </div>
-                        {% if items is defined %}
+                        
                         <div class="col-lg-3 text-right col-md-3">
                             <ul class="nav-right">
+                                {% if wishlist is defined and wishlist != [] %}
                                 <li class="heart-icon">
-                                    <a href="#">
+                                    <a href="/profile/wishlist">
                                         <i class="icon_heart_alt"></i>
-                                        <span>2</span>
+                                        <span></span>
                                     </a>
                                 </li>
+                                {% else %}
+                                <li class="heart-icon">
+                                    <a href="/profile/wishlist">
+                                        <i class="icon_heart_alt"></i>
+                                        <span>0</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if items is defined %}
                                 <li class="cart-icon">
                                 
                                 {% if items | length > 0  %}
